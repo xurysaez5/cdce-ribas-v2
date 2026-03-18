@@ -28,7 +28,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- ESTRUCTURA DEL MENÚ PRINCIPAL ---
-st.title("📊 Panel de Control CDCE - Municipio Ribas")
+st.title("Panel de Control CDCE - Municipio Ribas")
 st.write("---")
 
 # ZONA 1: INDICADORES SUPERIORES (KPIs)
