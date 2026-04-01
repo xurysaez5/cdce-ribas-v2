@@ -120,7 +120,7 @@ with c_user:
         col_btn1, col_btn2 = st.columns(2)
         if col_btn1.button("⚙️ Perfil"): ventana_configuracion()
         if col_btn2.button("🚪 Salir"): 
-    with c_logo:
+with c_logo:
         if os.path.exists("static/mppe.png"):
             st.image("static/mppe.png", width=100)
         else:
