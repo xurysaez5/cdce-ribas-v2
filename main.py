@@ -139,8 +139,8 @@ with c_mes:
              "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
     # El selectbox debe estar solo, sin que el rerun dependa de él así
     mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
-            st.session_state.clear()
-            st.rerun()
+        st.session_state.clear()
+        st.rerun()
 
 st.markdown("<h2 class='main-title'>Sistema Integrado de Estadísticas</h2>", unsafe_allow_html=True)
 modo = st.pills("Acción:", ["📊 Consultar", "📥 Cargar Datos"], default="📊 Consultar") if rol_usuario in ["admin", "director"] else "📊 Consultar"
