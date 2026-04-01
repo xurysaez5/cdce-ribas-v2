@@ -116,7 +116,7 @@ u_data = st.session_state["user_data"]
 rol_usuario = str(u_data.get("rol", "")).lower()
 
 c_user, c_logo2, c_logo, c_mes = st.columns([1, 1, 2, 1])
-    with c_user:
+        with c_user:
         col_btn1, col_btn2 = st.columns(2)
         if col_btn1.button("⚙️ Perfil"): ventana_configuracion()
         if col_btn2.button("🚪 Salir"): 
