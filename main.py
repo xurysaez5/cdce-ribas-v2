@@ -16,16 +16,32 @@ st.set_page_config(page_title="CDCE RIBAS V2", layout="wide", page_icon="📊")
 
 # --- ESTILOS PERSONALIZADOS ---
 st.markdown("""
-<style>
-    [data-testid="stAppViewContainer"] { background-color: #EBF0F5; }
-    .main-title { color: #002D57; font-weight: bold; text-align: center; margin-bottom: 0; }
-    .sub-title { color: #666; text-align: center; margin-top: 0; margin-bottom: 20px; }
-    .stTextInput > div > div > input { background-color: #FFFFFF !important; color: #002D57 !important; }
-    div[data-baseweb="input"] { background-color: #FFFFFF !important; border: 1px solid #002D57 !important; border-radius: 8px; }
-    [data-testid="stMetric"] { background-color: #ffffff; border-left: 5px solid #1f77b4; padding: 15px; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); }
-    .footer { text-align: center; color: #888; font-size: 12px; margin-top: 50px; }
-</style>
-""", unsafe_allow_html=True)
+    <style>
+    .card {
+        background-color: #ffffff !important; /* Fondo blanco forzado */
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 15px;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
+    }
+    .card h3 {
+        color: #1f3b64 !important; /* Azul oscuro forzado para títulos */
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+    .card p {
+        color: #333333 !important; /* Gris casi negro para los números/texto */
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+    }
+    /* Esto asegura que el contenedor de Streamlit no interfiera */
+    div[data-testid="stMarkdownContainer"] {
+        color: inherit;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 # --- FUNCIÓN DE AUTENTICACIÓN ---
 def login():
