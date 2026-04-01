@@ -115,19 +115,30 @@ def ventana_configuracion():
 u_data = st.session_state["user_data"]
 rol_usuario = str(u_data.get("rol", "")).lower()
 
-c_user, c_logo2, c_logo, c_mes = st.columns([1, 1, 2, 1])
+c_user, c_logo2, c_logo, c_mes = st.columns([2, 0.5, 1, 1.5])
+
 with c_user:
-        col_btn1, col_btn2 = st.columns(2)
-        if col_btn1.button("⚙️ Perfil"): ventana_configuracion()
-        if col_btn2.button("🚪 Salir"): 
+    # Creamos dos sub-columnas para los botones pequeños
+    col_btn1, col_btn2 = st.columns(2)
+    
+    if col_btn1.button("⚙️ Perfil"): 
+        ventana_configuracion()
+        
+    if col_btn2.button("🚪 Salir"): 
+        st.session_state.clear()
+        st.rerun()
+
 with c_logo:
-        if os.path.exists("static/mppe.png"):
-            st.image("static/mppe.png", width=100)
-        else:
-            st.markdown("<h3 style='text-align:center; color:#002D57;'>CDCE RIBAS</h3>", unsafe_allow_html=True)
+    if os.path.exists("static/mppe.png"):
+        st.image("static/mppe.png", width=80)
+    else:
+        st.markdown("<h4 style='color:#002D57;'>CDCE RIBAS</h4>", unsafe_allow_html=True)
+
 with c_mes:
-        meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-        mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
+    meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+             "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    # El selectbox debe estar solo, sin que el rerun dependa de él así
+    mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
             st.session_state.clear()
             st.rerun()
 
