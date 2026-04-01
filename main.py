@@ -121,7 +121,7 @@ with c_mes:
     mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
 with c_logo:
     if os.path.exists("static/mppe.png"):
-        st.image("static/mppe.png", width=120)
+        st.image("static/mppe.png", width=100)
     else:
         st.markdown("<h3 style='text-align:center; color:#002D57;'>CDCE RIBAS</h3>", unsafe_allow_html=True)
 with c_user:
