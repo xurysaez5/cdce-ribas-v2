@@ -22,8 +22,8 @@ with col_salir:
 with col_perfil:
     if st.button("⚙️ Perfil", use_container_width=True):
         ventana_configuracion()
-    st.session_state.clear()
-    st.rerun()
+        st.session_state.clear()
+        st.rerun()
 # Espacio sutil después de los botones
 st.write("")
 # --- ESTILOS PERSONALIZADOS ---
