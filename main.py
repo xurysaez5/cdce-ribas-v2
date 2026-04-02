@@ -139,9 +139,7 @@ with c_logo:
     else:
         st.markdown("<h3 style='text-align:center; color:#002D57;'>CDCE RIBAS</h3>", unsafe_allow_html=True)
 with c_user:
-    col_btn1, col_btn2 = st.columns(2)
-    if col_btn1.button("⚙️ Perfil"): ventana_configuracion()
-    if col_btn2.button("🚪 Salir"): 
+
         st.session_state.clear()
         st.rerun()
 st.markdown("<h2 class='main-title'>Sistema Integrado de Estadísticas</h2>", unsafe_allow_html=True)
