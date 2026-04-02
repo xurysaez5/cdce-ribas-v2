@@ -187,18 +187,6 @@ with c_mes:
     mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
 
     with c_distintivo:
-        # Como el logo ya está en el fondo (marca de agua), 
-        # aquí solo ponemos el nombre de la institución como referencia rápida.
-        st.markdown(
-            """
-            <div style='text-align: right; margin-top: 25px;'>
-                <span style='color: #002D57; font-weight: bold; font-size: 0.9rem;'>
-                 CDCE-RIBAS    
-                </span>
-            </div>
-            """, 
-            unsafe_allow_html=True
-        )
         
     # 3. Título Centrado
     st.markdown(
@@ -211,6 +199,16 @@ with c_mes:
         """, 
         unsafe_allow_html=True
     )
+            st.markdown(
+            """
+            <div style='text-align: right; margin-top: 25px;'>
+                <span style='color: #002D57; font-weight: bold; font-size: 0.9rem;'>
+                 CDCE-RIBAS    
+                </span>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
 
     u_data = st.session_state["user_data"]
     rol_usuario = str(u_data.get("rol", "")).lower()
