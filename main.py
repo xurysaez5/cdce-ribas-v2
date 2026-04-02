@@ -166,7 +166,7 @@ if not st.session_state["logeado"]:
 else:
     # --- INTERFAZ PRINCIPAL (SOLO SI ESTÁ LOGEADO) ---
     # 1. Botones de Control Alineados
-    c_btn2, c_btn1, c_espacio_btns = st.columns([1, 1, 4])
+    c_espacio_btns, c_btn2, c_btn1 = st.columns([4, 1, 1])
     with c_btn1:
         if st.button("⚙️ Perfil"):
             ventana_configuracion()
