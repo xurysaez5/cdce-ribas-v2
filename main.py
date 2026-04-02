@@ -180,7 +180,7 @@ else:
 # Usamos solo 2 columnas para que no se desordene en el móvil
 c_mes, c_vacio = st.columns([2,4])
 
-wwith c_mes:
+with c_mes:
     meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
              "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
     mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
