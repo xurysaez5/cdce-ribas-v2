@@ -14,16 +14,15 @@ supabase: Client = create_client(url, key)
 # --- CONFIGURACIÓN DE PÁGINA ---
 st.set_page_config(page_title="CDCE RIBAS V2", layout="wide", page_icon="📊")
 # --- BLOQUE 1: BOTONES SUPERIORES ---
-col_perfil, col_salir = st.columns(2)
+# Botón de Salir (Arriba)
+if st.button("🚪 Salir", use_container_width=True):
+    st.session_state.clear()
+    st.rerun()
 
-with col_salir:
-    if st.button("🚪 Salir", use_container_width=True):
-        
-with col_perfil:
-    if st.button("⚙️ Perfil", use_container_width=True):
-        ventana_configuracion()
-        st.session_state.clear()
-        st.rerun()
+# Botón de Perfil (Debajo)
+if st.button("⚙️ Perfil", use_container_width=True):
+    ventana_configuracion()
+
 # Espacio sutil después de los botones
 st.write("")
 # --- ESTILOS PERSONALIZADOS ---
