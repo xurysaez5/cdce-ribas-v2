@@ -34,7 +34,7 @@ st.markdown(
     }
     </style>
     
-    <img src="https://tu-url-de-imagen.png" class="watermark">
+    <img src="static/mppe.png" class="watermark">
     """,
     unsafe_allow_html=True
 )
