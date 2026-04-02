@@ -334,15 +334,115 @@ else:
             ids_para_query = [df_ver[df_ver['nombre_actual'] == inst_nom]['id'].values[0]]
 
         if modulo == "Condición Laboral":
+            # Usamos .eq("mes", mes_sel) porque tu tabla usa 'mes' en vez de 'mes_carga'
             res_lab = supabase.table("condicion_laboral").select("*").eq("mes", mes_sel).in_("escuela_id", ids_para_query).execute()
             df_lab = pd.DataFrame(res_lab.data)
+
             if not df_lab.empty:
+                # Mapeo de nombres desde los catálogos
                 df_lab['Cargo'] = df_lab['cargo_id'].map(df_cat_car.set_index('id')['nombre'].to_dict())
                 df_lab['Condición'] = df_lab['condicion_id'].map(df_cat_con.set_index('id')['nombre'].to_dict())
+                
+                # Consolidación
                 df_res = df_lab.groupby(['Condición', 'Cargo']).agg({'varones': 'sum', 'hembras': 'sum'}).reset_index()
-                st.dataframe(df_res, use_container_width=True)
+                df_res['Total'] = df_res['varones'] + df_res['hembras']
+                
+                # KPIs Superiores
+                t_v, t_h = df_res['varones'].sum(), df_res['hembras'].sum()
+                k1, k2, k3 = st.columns(3)
+                k1.metric("Total Personal", f"{int(t_v + t_h)}")
+                k2.metric("Total Varones", f"{int(t_v)}")
+                k3.metric("Total Hembras", f"{int(t_h)}")
+                st.write("---")
+
+                st.markdown("#### 📋 Detalle por Condición y Cargo")
+                c_tarjetas = st.columns(2)
+                
+                for i, r in df_res.iterrows():
+                    with c_tarjetas[i % 2]:
+                        # CRÍTICO: El uso de f-strings con triple comilla y unsafe_allow_html=True
+                        st.markdown(f"""
+                            <div style="background-color: white; padding: 20px; border-radius: 20px; border-left: 10px solid #4A90E2; box-shadow: 4px 4px 15px rgba(0,0,0,0.1); text-align: center; margin-bottom: 25px; min-height: 350px;">
+                                <div style="margin-bottom: 15px;">
+                                    <p style="color: #666; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; margin: 0;">CARGO</p>
+                                    <h3 style="color: #002D57; margin: 5px 0; font-size: 1.1rem; text-transform: uppercase;">{r['Cargo']}</h3>
+                                </div>
+                                <div style="background-color: #F8F9FA; padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #E9ECEF;">
+                                    <p style="color: #666; text-transform: uppercase; font-size: 0.7rem; margin: 0;">CANTIDAD</p>
+                                    <h2 style="color: #4A90E2; margin: 5px 0; font-size: 2rem;">{int(r['Total'])}</h2>
+                                    <p style="color: #444; font-size: 0.9rem; margin: 0;">♂ {int(r['varones'])} &nbsp; | &nbsp; ♀ {int(r['hembras'])}</p>
+                                </div>
+                                <div>
+                                    <p style="color: #666; text-transform: uppercase; font-size: 0.7rem; margin: 0;">CONDICIÓN LABORAL</p>
+                                    <p style="color: #333; font-weight: bold; margin: 5px 0; font-size: 1rem; text-transform: uppercase;">{r['Condición']}</p>
+                                </div>
+                            </div>
+                        """, unsafe_allow_html=True)
             else:
-                st.info("Sin datos.")
+                st.info(f"No hay registros de condición laboral para {mes_sel}.")
+
+    else: # Estudiantes, Docentes, Personal No Docente
+        if modulo == "Estudiantes":
+            tabla, col_v, col_h, col_av, col_ah = "estudiantes", "varones", "hembras", "asistencia_varones", "asistencia_hembras"
+            query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query)
         else:
-            # Lógica para Estudiantes/Personal similar...
-            st.info("Módulo de consulta en desarrollo con la nueva indentación.")
+            tabla, col_v, col_h, col_av, col_ah = "personal", "varones_contratados", "hembras_contratadas", "asistencia_v", "asistencia_h"
+            roles = ["Docente"] if modulo == "Docentes" else ["Administrativo", "Obrero", "Cocineras", "Vigilantes"]
+            query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query).in_("tipo_personal", roles)
+
+        res = query.execute()
+        df = pd.DataFrame(res.data)
+
+        if not df.empty:
+            # Cálculos de KPIs
+            v, h = df[col_v].sum(), df[col_h].sum()
+            av, ah = df[col_av].sum(), df[col_ah].sum()
+            total = v + h
+            porc = ((av + ah) / total * 100) if total > 0 else 0
+
+            # Mostrar KPIs Reales
+            st.markdown(f"### 📈 Resumen de {modulo}")
+            k1, k2, k3, k4, k5 = st.columns(5)
+            k1.metric("Matrícula", f"{int(total)}")
+            k2.metric("Varones", f"{int(v)}")
+            k3.metric("Hembras", f"{int(h)}")
+            k4.metric("Asistencia", f"{int(av + ah)}")
+            k5.metric("% Real", f"{porc:.1f}%")
+
+            # Gráfico Comparativo
+            # Agrupamos según el módulo (nivel educativo para estudiantes, tipo para personal)
+            eje_x = "nivel_educativo" if modulo == "Estudiantes" else "tipo_personal"
+            df_g = df.groupby(eje_x).agg({col_v:'sum', col_h:'sum', col_av:'sum', col_ah:'sum'}).reset_index()
+            
+            fig = px.bar(df_g, x=eje_x, y=[col_v, col_h], 
+                         title=f"Distribución de {modulo} por Sexo", 
+                         labels={"value": "Cantidad", "variable": "Sexo"},
+                         barmode="group", template="plotly_white")
+            st.plotly_chart(fig, use_container_width=True)
+
+            # --- GRÁFICO 2: COMPARATIVO MATRÍCULA VS ASISTENCIA (Horizontal) ---
+            st.markdown("#### 📊 Comparativo Matrícula vs Asistencia")
+            
+            # Creamos un resumen total para el gráfico horizontal
+            df_h = pd.DataFrame({
+                "Concepto": ["Personal Contratado" if modulo != "Estudiantes" else "Matrícula Inscrita", 
+                             "Promedio Asistencia"],
+                "Cantidad": [int(total), int(av + ah)]
+            })
+
+            fig_horiz = px.bar(df_h, 
+                               y="Concepto", 
+                               x="Cantidad", 
+                               orientation='h',
+                               text="Cantidad",
+                               title=f"Rendimiento Mensual: {modulo}",
+                               color="Concepto",
+                               color_discrete_sequence=["#002D57", "#1f77b4"],
+                               template="plotly_white")
+            
+            fig_horiz.update_traces(textposition='outside')
+            fig_horiz.update_layout(showlegend=False, height=300)
+            
+            st.plotly_chart(fig_horiz, use_container_width=True)
+        else:
+            st.info(f"No se encontraron registros de {modulo} para {mes_sel} en la selección actual.")    
