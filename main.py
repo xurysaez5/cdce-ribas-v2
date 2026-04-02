@@ -71,8 +71,8 @@ def login():
 
     with c_btn2:
         if st.button("🚪 Salir"):
-        st.session_state.clear()
-        st.rerun()
+    st.session_state.clear()
+    st.rerun()
 
 # Espacio sutil después de los botones
 st.write("")
