@@ -67,7 +67,7 @@ def login():
     with c_btn1:
     # Quitamos 'use_container_width' para que el botón solo ocupe lo que mide su texto
         if st.button("⚙️ Perfil"):
-        ventana_configuracion()
+            ventana_configuracion()
 
     with c_btn2:
         if st.button("🚪 Salir"):
