@@ -186,7 +186,7 @@ with c_mes:
     # El selector de mes ahora ocupa un espacio más cómodo
     mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
 
-    with c_distintivo:
+with c_distintivo:
         
     # 3. Título Centrado
     st.markdown(
