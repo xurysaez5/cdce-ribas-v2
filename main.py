@@ -178,7 +178,7 @@ else:
     # 2. Logo y Período
     # --- BLOQUE 2: PERÍODO Y DISTINTIVO ---
 # Usamos solo 2 columnas para que no se desordene en el móvil
-c_mes, c_distintivo = st.columns([2, 1])
+c_mes = st.columns([2])
 
 with c_mes:
     meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
@@ -186,8 +186,7 @@ with c_mes:
     # El selector de mes ahora ocupa un espacio más cómodo
     mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
 
-with c_distintivo:
-        
+       
     # 3. Título Centrado
     st.markdown(
         """
@@ -202,7 +201,7 @@ with c_distintivo:
     st.markdown(
         """
             <div style='text-align: right; margin-top: 25px;'>
-                <span style='color: #002D57; font-weight: bold; font-size: 0.9rem;'>
+                <span style='text-align: center; color: #002D57; font-weight: bold; font-size: 0.9rem;'>
                  CDCE-RIBAS    
                 </span>
             </div>
