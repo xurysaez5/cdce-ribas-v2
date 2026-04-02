@@ -12,7 +12,32 @@ supabase: Client = create_client(url, key)
 
 # --- CONFIGURACIÓN DE PÁGINA ---
 st.set_page_config(page_title="CDCE RIBAS V2", layout="wide", page_icon="📊")
-
+# --- CONFIGURACIÓN DE MARCA DE AGUA (FONDO) ---
+st.markdown(
+    """
+    <style>
+    /* Contenedor de la marca de agua */
+    .watermark {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.05; /* Controla qué tan transparente es (0.05 es muy tenue) */
+        z-index: -1;   /* Lo envía al fondo de todo */
+        pointer-events: none; /* Evita que interfiera con los clics en botones */
+        width: 60%;    /* Tamaño considerable en pantalla */
+    }
+    
+    /* Ajuste para que el fondo de la app sea transparente y deje ver la marca */
+    .stApp {
+        background-color: rgba(0,0,0,0);
+    }
+    </style>
+    
+    <img src="https://tu-url-de-imagen.png" class="watermark">
+    """,
+    unsafe_allow_html=True
+)
 # --- ESTILOS PERSONALIZADOS ---
 st.markdown("""
     <style>
