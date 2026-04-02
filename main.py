@@ -149,7 +149,7 @@ def ventana_configuracion():
 # --- INTERFAZ PRINCIPAL ---
 u_data = st.session_state["user_data"]
 rol_usuario = str(u_data.get("rol", "")).lower()
-c_mes, c_logo2, c_logo, c_user = st.columns([1, 1, 2, 1])
+c_mes, c_logo2, c_logo= st.columns([1, 1, 2])
 with c_mes:
     meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
     mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
@@ -158,7 +158,6 @@ with c_logo:
         st.image("static/mppe.png", width=120)
     else:
         st.markdown("<h3 style='text-align:center; color:#002D57;'>CDCE RIBAS</h3>", unsafe_allow_html=True)
-with c_user:
 
         st.session_state.clear()
         st.rerun()
