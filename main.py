@@ -71,7 +71,17 @@ def login():
     """, 
     unsafe_allow_html=True
 )
-    st.markdown("<p class='sub-title'>Acceso CDCE-RIBAS</p>", unsafe_allow_html=True)
+    # --- SUBTÍTULO CENTRADO CON ESTILO ---
+st.markdown(
+    """
+    <div style='width: 100%; display: flex; justify-content: center; margin-top: -10px;'>
+        <p style='text-align: center; color: #555555; font-size: 1.2rem; font-weight: 500;'>
+            Acceso CDCE-RIBAS
+        </p>
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
     
     with st.container():
         col1, col2, col3 = st.columns([1, 2, 1])
