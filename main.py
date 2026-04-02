@@ -178,17 +178,17 @@ else:
     # 2. Logo y Período
     # --- BLOQUE 2: PERÍODO Y DISTINTIVO ---
 # Usamos solo 2 columnas para que no se desordene en el móvil
-c_mes, c_vacio = st.columns([2,4])
+    c_mes, c_vacio = st.columns([2,4])
 
-with c_mes:
-    meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+    with c_mes:
+        meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
              "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-    mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
+        mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
 
 # El "With" termina aquí. Al no haber nada en 'c_espacio_derecha', ese hueco queda libre.
 
 # 2. ESPACIO DE SEPARACIÓN (Opcional, para que no pegue con el título)
-st.write("")
+    st.write("")
 
        
     # 3. Título Centrado
