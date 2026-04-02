@@ -62,15 +62,15 @@ st.markdown("""
 # --- FUNCIÓN DE AUTENTICACIÓN ---
 def login():
 # --- BLOQUE 1: BOTONES SUPERIORES ---
-c_espacio, c_btn1, c_btn2 = st.columns([3, 1, 1])
+    c_espacio, c_btn1, c_btn2 = st.columns([3, 1, 1])
 
-with c_btn1:
+    with c_btn1:
     # Quitamos 'use_container_width' para que el botón solo ocupe lo que mide su texto
-    if st.button("⚙️ Perfil"):
+        if st.button("⚙️ Perfil"):
         ventana_configuracion()
 
-with c_btn2:
-    if st.button("🚪 Salir"):
+    with c_btn2:
+        if st.button("🚪 Salir"):
         st.session_state.clear()
         st.rerun()
 
