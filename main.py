@@ -88,7 +88,7 @@ st.markdown(
     unsafe_allow_html=True
 )
     # --- SUBTÍTULO CENTRADO CON ESTILO ---
-    st.markdown(
+st.markdown(
     """
     <div style='width: 100%; display: flex; justify-content: center; margin-top: -10px;'>
         <p style='text-align: center; color: #555555; font-size: 1.2rem; font-weight: 500;'>
