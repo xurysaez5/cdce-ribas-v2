@@ -178,7 +178,7 @@ else:
     # 2. Logo y Período
     # --- BLOQUE 2: PERÍODO Y DISTINTIVO ---
 # Usamos solo 2 columnas para que no se desordene en el móvil
-c_mes, c_vacio = st.columns([2,1])
+c_mes, c_vacio = st.columns([2,2])
 
 with c_mes:
     meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
@@ -198,17 +198,7 @@ with c_vacio:
         """, 
         unsafe_allow_html=True
     )
-    st.markdown(
-        """
-            <div style='text-align: right; margin-top: 25px;'>
-                <span style='text-align: center; color: #002D57; font-weight: bold; font-size: 0.9rem;'>
-                 CDCE-RIBAS    
-                </span>
-            </div>
-            """, 
-            unsafe_allow_html=True
-    )
-
+    
     u_data = st.session_state["user_data"]
     rol_usuario = str(u_data.get("rol", "")).lower()
     
