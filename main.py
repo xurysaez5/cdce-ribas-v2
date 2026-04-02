@@ -13,6 +13,7 @@ supabase: Client = create_client(url, key)
 
 # --- CONFIGURACIÓN DE PÁGINA ---
 st.set_page_config(page_title="CDCE RIBAS V2", layout="wide", page_icon="📊")
+
 # --- BLOQUE 1: BOTONES SUPERIORES ---
 c_btn1, c_btn2, c_espacio = st.columns([1, 1, 4])
 
@@ -60,7 +61,16 @@ st.markdown("""
 
 # --- FUNCIÓN DE AUTENTICACIÓN ---
 def login():
-    st.markdown("<h2 class='main-title'>🔐 Sistema Integrado de Estadísticas</h2>", unsafe_allow_html=True)
+    st.markdown(
+    """
+    <div style='width: 100%; display: flex; justify-content: center;'>
+        <h1 style='text-align: center; color: #1f3b64; width: 100%;'>
+            🔐Sistema Integrado de Estadísticas
+        </h1>
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
     st.markdown("<p class='sub-title'>Acceso CDCE-RIBAS</p>", unsafe_allow_html=True)
     
     with st.container():
