@@ -35,7 +35,7 @@ try:
             background-size: 40%; /* Ajusta el tamaño aquí */
             background-repeat: no-repeat;
             background-position: center;
-            background-color: rgba(255, 255, 255, 0.50); /* Fondo blanco tenue */
+            background-color: rgba(255, 255, 255, 0.70); /* Fondo blanco tenue */
             background-blend-mode: overlay; /* Esto crea el efecto de marca de agua suave */
         }}
         </style>
