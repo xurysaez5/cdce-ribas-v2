@@ -145,17 +145,30 @@ else:
             st.rerun()
 
     # 2. Logo y Período
-    c_mes, c_logo2, c_logo = st.columns([1.5, 0.5, 2])
-    with c_mes:
-        meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-        mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
-    
-    with c_logo:
-        if os.path.exists("static/mppe.png"):
-            st.image("static/mppe.png", width=120)
-        else:
-            st.markdown("<h3 style='text-align:right; color:#002D57;'>CDCE RIBAS</h3>", unsafe_allow_html=True)
+    # --- BLOQUE 2: PERÍODO Y DISTINTIVO ---
+# Usamos solo 2 columnas para que no se desordene en el móvil
+c_mes, c_distintivo = st.columns([2, 1])
 
+with c_mes:
+    meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+             "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    # El selector de mes ahora ocupa un espacio más cómodo
+    mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
+
+    with c_distintivo:
+        # Como el logo ya está en el fondo (marca de agua), 
+        # aquí solo ponemos el nombre de la institución como referencia rápida.
+        st.markdown(
+            """
+            <div style='text-align: right; margin-top: 25px;'>
+                <span style='color: #002D57; font-weight: bold; font-size: 0.9rem;'>
+                    CDCE RIBAS
+                </span>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
+        
     # 3. Título Centrado
     st.markdown(
         """
