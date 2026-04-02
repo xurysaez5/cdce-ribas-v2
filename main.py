@@ -32,11 +32,11 @@ try:
         .stApp {{
             background-image: url("data:image/png;base64,{bin_str}");
             background-attachment: fixed;
-            background-size: 60%; /* Ajusta el tamaño aquí */
+            background-size: 40%; /* Ajusta el tamaño aquí */
             background-repeat: no-repeat;
             background-position: center;
             background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco tenue */
-            
+            background-blend-mode: overlay; /* Esto crea el efecto de marca de agua suave */
         }}
         </style>
         """,
