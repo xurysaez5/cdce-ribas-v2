@@ -99,10 +99,10 @@ st.markdown(
     unsafe_allow_html=True
 )
     
-    with st.container():
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            with st.form("login_form"):
+with st.container():
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        with st.form("login_form"):
                 u_input = st.text_input("Usuario (Cédula)")
                 p_input = st.text_input("Contraseña", type="password")
                 if st.form_submit_button("Ingresar al Sistema", use_container_width=True):
