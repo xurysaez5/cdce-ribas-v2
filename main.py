@@ -199,8 +199,8 @@ with c_distintivo:
         """, 
         unsafe_allow_html=True
     )
-            st.markdown(
-            """
+    st.markdown(
+        """
             <div style='text-align: right; margin-top: 25px;'>
                 <span style='color: #002D57; font-weight: bold; font-size: 0.9rem;'>
                  CDCE-RIBAS    
@@ -208,7 +208,7 @@ with c_distintivo:
             </div>
             """, 
             unsafe_allow_html=True
-        )
+    )
 
     u_data = st.session_state["user_data"]
     rol_usuario = str(u_data.get("rol", "")).lower()
