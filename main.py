@@ -13,32 +13,38 @@ supabase: Client = create_client(url, key)
 # --- CONFIGURACIÓN DE PÁGINA ---
 st.set_page_config(page_title="CDCE RIBAS V2", layout="wide", page_icon="📊")
 # --- CONFIGURACIÓN DE MARCA DE AGUA (FONDO) ---
-st.markdown(
-    """
-    <style>
-    /* Contenedor de la marca de agua */
-    .watermark {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 0.05; /* Controla qué tan transparente es (0.05 es muy tenue) */
-        z-index: -1;   /* Lo envía al fondo de todo */
-        pointer-events: none; /* Evita que interfiera con los clics en botones */
-        width: 60%;    /* Tamaño considerable en pantalla */
-    }
+import base64
+
+# --- FUNCIÓN PARA CONVERTIR IMAGEN A BASE64 ---
+def get_base64(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+# Intentamos cargar la imagen de la carpeta static
+try:
+    bin_str = get_base64("static/mppe.png")
     
-    /* Ajuste para que el fondo de la app sea transparente y deje ver la marca */
-    .stApp {
-        background-color: rgba(0,0,0,0);
-    }
-    </style>
-    
-    <img src="static/mppe.png" class="watermark">
-    """,
-    unsafe_allow_html=True
-)
-# --- ESTILOS PERSONALIZADOS ---
+    # --- APLICAR MARCA DE AGUA CON BASE64 ---
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/png;base64,{bin_str}");
+            background-attachment: fixed;
+            background-size: 60%; /* Ajusta el tamaño aquí */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco tenue */
+            background-blend-mode: overlay; /* Esto crea el efecto de marca de agua suave */
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+except Exception:
+    # Si falla la carga, no rompe la app, solo no muestra el fondo
+    pass# --- ESTILOS PERSONALIZADOS ---
 st.markdown("""
     <style>
     .card {
