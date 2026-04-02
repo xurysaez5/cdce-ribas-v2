@@ -193,7 +193,7 @@ with c_mes:
             """
             <div style='text-align: right; margin-top: 25px;'>
                 <span style='color: #002D57; font-weight: bold; font-size: 0.9rem;'>
-                    CDCE RIBAS
+                     
                 </span>
             </div>
             """, 
