@@ -77,7 +77,7 @@ def login():
 # Espacio sutil después de los botones
 st.write("")
 
-    st.markdown(
+st.markdown(
     """
     <div style='width: 100%; display: flex; justify-content: center;'>
         <h1 style='text-align: center; color: #1f3b64; width: 100%;'>
