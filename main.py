@@ -15,7 +15,7 @@ supabase: Client = create_client(url, key)
 st.set_page_config(page_title="CDCE RIBAS V2", layout="wide", page_icon="📊")
 
 # --- BLOQUE 1: BOTONES SUPERIORES ---
-c_espacio, c_btn1, c_btn2 = st.columns([4, 1, 1])
+c_espacio, c_btn1, c_btn2 = st.columns([3, 1, 1])
 
 with c_btn1:
     # Quitamos 'use_container_width' para que el botón solo ocupe lo que mide su texto
