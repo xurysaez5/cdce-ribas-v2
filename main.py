@@ -178,7 +178,7 @@ else:
     # 2. Logo y Período
     # --- BLOQUE 2: PERÍODO Y DISTINTIVO ---
 # Usamos solo 2 columnas para que no se desordene en el móvil
-c_mes, c_vacio = st.columns([2])
+c_mes, c_vacio = st.columns([2,1])
 
 with c_mes:
     meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
