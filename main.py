@@ -357,7 +357,7 @@ else:
 
                 st.markdown("#### 📋 Detalle por Condición y Cargo")
                 c_tarjetas = st.columns(2)
-                
+                st.stop()
                 for i, r in df_res.iterrows():
                     with c_tarjetas[i % 2]:
                         # CRÍTICO: El uso de f-strings con triple comilla y unsafe_allow_html=True
