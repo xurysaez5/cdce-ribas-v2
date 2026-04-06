@@ -89,7 +89,34 @@ def ventana_configuracion():
                 st.success("✅ ¡Actualizada!")
             except: 
                 st.error("Error al conectar.")
+# --- VENTANA DE RESUMEN INICIAL ---
+@st.dialog("📊 Resumen de Carga Mensual")
+def mostrar_resumen_carga(mes):
+    try:
+        # Consultamos cuántas instituciones ÚNICAS han cargado en el mes actual
+        res = supabase.table("estudiantes").select("escuela_id").eq("mes_carga", mes).execute()
+        df_conteo = pd.DataFrame(res.data)
+        
+        if not df_conteo.empty:
+            total_cargadas = df_conteo['escuela_id'].nunique()
+            # Consultamos el total de escuelas registradas para comparar
+            res_total = supabase.table("escuelas").select("id", count="exact").execute()
+            total_sistema = res_total.count
+            
+            st.write(f"### ¡Hola! Este es el estado de **{mes}**:")
+            st.metric("Instituciones con Carga", f"{total_cargadas} de {total_sistema}")
+            
+            progreso = total_cargadas / total_sistema
+            st.progress(progreso)
+            st.write(f"Se ha completado el **{progreso*100:.1f}%** de la recolección municipal.")
+        else:
+            st.warning(f"Aún no se han registrado cargas para el mes de {mes}.")
+            
+    except Exception as e:
+        st.error("No se pudo obtener el resumen en este momento.")
 
+    if st.button("Entrar al Sistema", use_container_width=True):
+        st.rerun()
 # --- FUNCIÓN DE AUTENTICACIÓN ---
 def login():
     st.markdown(
