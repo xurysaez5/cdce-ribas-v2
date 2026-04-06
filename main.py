@@ -215,6 +215,15 @@ else:
     with c_mes:
         meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
              "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+        if "mes_seleccionado" not in st.session_state:
+            st.session_state["mes_seleccionado"] = meses[datetime.now().month-1]
+            u_data = st.session_state["user_data"]
+            rol_usuario = str(u_data.get("rol", "")).lower()
+
+        if st.session_state.get("primer_acceso") and rol_usuario in ["admin", "supervisor"]:
+            st.session_state["primer_acceso"] = False 
+            # El popup usa el mes que ya guardamos en el estado
+            mostrar_resumen_carga(st.session_state["mes_seleccionado"])
         mes_sel = meses[datetime.now().month-1] # Definición por defecto rápida
         u_data = st.session_state["user_data"]
         rol_usuario = str(u_data.get("rol", "")).lower()
