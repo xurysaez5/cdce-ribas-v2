@@ -378,7 +378,7 @@ else:
                                 </div>
                             </div>
                         """, unsafe_allow_html=True)
-                        st.stop()       
+                st.stop()       
             else:
                 st.info(f"No hay registros de condición laboral para {mes_sel}.")
                 st.stop()
