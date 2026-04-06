@@ -157,8 +157,13 @@ def login():
                             
                             st.session_state["logeado"] = True
                             st.session_state["user_data"] = user
+                            st.session_state["primer_acceso"] = True
                             st.rerun()
                         else:
+                            # --- CONTROL DE PANTALLA DE BIENVENIDA ---
+                            if st.session_state.get("primer_acceso") and rol_usuario in ["admin", "supervisor"]:
+                                st.session_state["primer_acceso"] = False # Lo desactivamos para la próxima recarga
+                                mostrar_resumen_carga(mes_sel)
                             st.error("Credenciales inválidas o usuario inactivo.")
                     except Exception:
                         st.error("⚠️ Error de conexión.")
