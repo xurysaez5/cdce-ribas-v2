@@ -357,7 +357,7 @@ else:
 
                 st.markdown("#### 📋 Detalle por Condición y Cargo")
                 c_tarjetas = st.columns(2)
-                st.stop()
+                
                 for i, r in df_res.iterrows():
                     with c_tarjetas[i % 2]:
                         # CRÍTICO: El uso de f-strings con triple comilla y unsafe_allow_html=True
@@ -378,9 +378,10 @@ else:
                                 </div>
                             </div>
                         """, unsafe_allow_html=True)
+                        st.stop()
             else:
                 st.info(f"No hay registros de condición laboral para {mes_sel}.")
-
+            
         if modulo == "Estudiantes":
             tabla, col_v, col_h, col_av, col_ah = "estudiantes", "varones", "hembras", "asistencia_varones", "asistencia_hembras"
             query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query)
