@@ -378,11 +378,10 @@ else:
                                 </div>
                             </div>
                         """, unsafe_allow_html=True)
-                                
+                         st.stop()       
             else:
-                st.stop()
                 st.info(f"No hay registros de condición laboral para {mes_sel}.")
-                
+                st.stop()
         if modulo == "Estudiantes":
             tabla, col_v, col_h, col_av, col_ah = "estudiantes", "varones", "hembras", "asistencia_varones", "asistencia_hembras"
             query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query)
