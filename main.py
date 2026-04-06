@@ -219,8 +219,8 @@ else:
         u_data = st.session_state["user_data"]
         rol_usuario = str(u_data.get("rol", "")).lower()
         if st.session_state.get("primer_acceso") and rol_usuario in ["admin", "supervisor"]:
-        st.session_state["primer_acceso"] = False 
-        mostrar_resumen_carga(mes_sel) # Ahora mes_sel ya existe
+            st.session_state["primer_acceso"] = False 
+            mostrar_resumen_carga(mes_sel) # Ahora mes_sel ya existe
 # El "With" termina aquí. Al no haber nada en 'c_espacio_derecha', ese hueco queda libre.
 
 # 2. ESPACIO DE SEPARACIÓN (Opcional, para que no pegue con el título)
