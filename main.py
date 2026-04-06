@@ -89,34 +89,7 @@ def ventana_configuracion():
                 st.success("✅ ¡Actualizada!")
             except: 
                 st.error("Error al conectar.")
-# --- VENTANA DE RESUMEN INICIAL ---
-@st.dialog("📊 Resumen de Carga Mensual")
-def mostrar_resumen_carga(mes):
-    try:
-        # Consultamos cuántas instituciones ÚNICAS han cargado en el mes actual
-        res = supabase.table("estudiantes").select("escuela_id").eq("mes_carga", mes).execute()
-        df_conteo = pd.DataFrame(res.data)
-        
-        if not df_conteo.empty:
-            total_cargadas = df_conteo['escuela_id'].nunique()
-            # Consultamos el total de escuelas registradas para comparar
-            res_total = supabase.table("escuelas").select("id", count="exact").execute()
-            total_sistema = res_total.count
-            
-            st.write(f"### ¡Hola! Este es el estado de **{mes}**:")
-            st.metric("Instituciones con Carga", f"{total_cargadas} de {total_sistema}")
-            
-            progreso = total_cargadas / total_sistema
-            st.progress(progreso)
-            st.write(f"Se ha completado el **{progreso*100:.1f}%** de la recolección municipal.")
-        else:
-            st.warning(f"Aún no se han registrado cargas para el mes de {mes}.")
-            
-    except Exception as e:
-        st.error("No se pudo obtener el resumen en este momento.")
 
-    if st.button("Entrar al Sistema", use_container_width=True):
-        st.rerun()
 # --- FUNCIÓN DE AUTENTICACIÓN ---
 def login():
     st.markdown(
@@ -157,13 +130,8 @@ def login():
                             
                             st.session_state["logeado"] = True
                             st.session_state["user_data"] = user
-                            st.session_state["primer_acceso"] = True
                             st.rerun()
                         else:
-                            # --- CONTROL DE PANTALLA DE BIENVENIDA ---
-                            if st.session_state.get("primer_acceso") and rol_usuario in ["admin", "supervisor"]:
-                                st.session_state["primer_acceso"] = False # Lo desactivamos para la próxima recarga
-                                mostrar_resumen_carga(mes_sel)
                             st.error("Credenciales inválidas o usuario inactivo.")
                     except Exception:
                         st.error("⚠️ Error de conexión.")
@@ -215,21 +183,8 @@ else:
     with c_mes:
         meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
              "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-        if "mes_seleccionado" not in st.session_state:
-            st.session_state["mes_seleccionado"] = meses[datetime.now().month-1]
-            u_data = st.session_state["user_data"]
-            rol_usuario = str(u_data.get("rol", "")).lower()
+        mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
 
-        if st.session_state.get("primer_acceso") and rol_usuario in ["admin", "supervisor"]:
-            st.session_state["primer_acceso"] = False 
-            # El popup usa el mes que ya guardamos en el estado
-            mostrar_resumen_carga(st.session_state["mes_seleccionado"])
-        mes_sel = meses[datetime.now().month-1] # Definición por defecto rápida
-        u_data = st.session_state["user_data"]
-        rol_usuario = str(u_data.get("rol", "")).lower()
-        if st.session_state.get("primer_acceso") and rol_usuario in ["admin", "supervisor"]:
-            st.session_state["primer_acceso"] = False 
-            mostrar_resumen_carga(mes_sel) # Ahora mes_sel ya existe
 # El "With" termina aquí. Al no haber nada en 'c_espacio_derecha', ese hueco queda libre.
 
 # 2. ESPACIO DE SEPARACIÓN (Opcional, para que no pegue con el título)
