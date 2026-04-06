@@ -378,8 +378,9 @@ else:
                                 </div>
                             </div>
                         """, unsafe_allow_html=True)
-                        st.stop()        
+                                
             else:
+                st.stop()
                 st.info(f"No hay registros de condición laboral para {mes_sel}.")
                 
         if modulo == "Estudiantes":
