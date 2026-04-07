@@ -284,32 +284,43 @@ else:
             inst_nom = st.selectbox("Institución:", df_ver['nombre_actual'])
             ids_para_query = [df_ver[df_ver['nombre_actual'] == inst_nom]['id'].values[0]]
 
-        if modulo == "Condición Laboral":
+if modulo == "Condición Laboral":
             res_lab = supabase.table("condicion_laboral").select("*").eq("mes", mes_sel).in_("escuela_id", ids_para_query).execute()
             df_lab = pd.DataFrame(res_lab.data)
+            
             if not df_lab.empty:
+                # Mapeo de nombres
                 df_lab['Cargo'] = df_lab['cargo_id'].map(df_cat_car.set_index('id')['nombre'].to_dict())
                 df_lab['Condición'] = df_lab['condicion_id'].map(df_cat_con.set_index('id')['nombre'].to_dict())
-                df_res = df_lab.groupby(['Condición', 'Cargo']).agg({'varones': 'sum', 'hembras': 'sum'}).reset_index()
+                
+                # IMPORTANTE: Agrupamos por escuela_id para que el supervisor vea de quién es cada dato
+                df_res = df_lab.groupby(['escuela_id', 'Condición', 'Cargo']).agg({'varones': 'sum', 'hembras': 'sum'}).reset_index()
                 df_res['Total'] = df_res['varones'] + df_res['hembras']
+                
+                # Mapeamos el nombre de la institución usando el df_ver que ya cargaste arriba
+                dict_escuelas = df_ver.set_index('id')['nombre_actual'].to_dict()
+                df_res['Institución'] = df_res['escuela_id'].map(dict_escuelas)
+
                 t_v, t_h = df_res['varones'].sum(), df_res['hembras'].sum()
                 k1, k2, k3 = st.columns(3)
                 k1.metric("Total Personal", f"{int(t_v + t_h)}")
                 k2.metric("Total Varones", f"{int(t_v)}")
                 k3.metric("Total Hembras", f"{int(t_h)}")
+                
                 st.write("---")
-                st.markdown("#### 📋 Detalle por Condición y Cargo")
+                st.markdown("#### 📋 Detalle por Institución, Condición y Cargo")
                 c_tarjetas = st.columns(2)
                 for i, r in df_res.iterrows():
                     with c_tarjetas[i % 2]:
                         st.markdown(f"""
-                            <div style="background-color: white; padding: 20px; border-radius: 20px; border-left: 10px solid #4A90E2; box-shadow: 4px 4px 15px rgba(0,0,0,0.1); text-align: center; margin-bottom: 25px; min-height: 350px;">
-                                <h3 style="color: #002D57;">{r['Cargo']}</h3>
-                                <div style="background-color: #F8F9FA; padding: 15px; border-radius: 15px;">
-                                    <h2 style="color: #4A90E2;">{int(r['Total'])}</h2>
-                                    <p>♂ {int(r['varones'])} | ♀ {int(r['hembras'])}</p>
+                            <div style="background-color: white; padding: 20px; border-radius: 20px; border-left: 10px solid #4A90E2; box-shadow: 4px 4px 15px rgba(0,0,0,0.1); margin-bottom: 25px; min-height: 250px;">
+                                <p style="color: #7F8C8D; font-size: 0.8rem; margin-bottom: 5px; font-weight: bold;">🏫 {r['Institución']}</p>
+                                <h3 style="color: #002D57; margin-top: 0px;">{r['Cargo']}</h3>
+                                <div style="display: flex; justify-content: space-between; align-items: center; background-color: #F8F9FA; padding: 10px; border-radius: 12px;">
+                                    <h2 style="color: #4A90E2; margin: 0;">{int(r['Total'])}</h2>
+                                    <p style="margin: 0;">♂ {int(r['varones'])} | ♀ {int(r['hembras'])}</p>
                                 </div>
-                                <p><strong>{r['Condición']}</strong></p>
+                                <p style="margin-top: 10px; font-weight: bold; color: #34495E;">{r['Condición']}</p>
                             </div>
                         """, unsafe_allow_html=True)
                 st.stop()
