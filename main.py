@@ -336,21 +336,24 @@ if modulo == "Estudiantes":
             roles = ["Docente"] if modulo == "Docentes" else ["Administrativo", "Obrero", "Cocineras", "Vigilantes"]
             query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query).in_("tipo_personal", roles)
 
-            res = query.execute()
-            df = pd.DataFrame(res.data)
+        res = query.execute()
+        df = pd.DataFrame(res.data)
+        
         if not df.empty:
             v, h = df[col_v].sum(), df[col_h].sum()
             av, ah = df[col_av].sum(), df[col_ah].sum()
             total = v + h
             porc = ((av + ah) / total * 100) if total > 0 else 0
+            
             st.markdown(f"### 📈 Resumen de {modulo}")
+            
+            # --- FILA 1: TOTALES GENERALES ---
             k1, k2, k3, k4, k5 = st.columns(5)
             k1.metric("Matrícula", f"{int(total)}")
             k2.metric("Varones", f"{int(v)}")
             k3.metric("Hembras", f"{int(h)}")
             k4.metric("Asistencia", f"{int(av + ah)}")
-            k5.metric("% Real", f"{porc:.1f}%")
-            # --- FILA 2: DESGLOSE POR NIVEL/ROL ---
+            k5.metric("% Real", f"{porc:.1f}%")            # --- FILA 2: DESGLOSE POR NIVEL/ROL ---
             st.markdown("#### 🔍 Desglose por Categoría")
             eje_x = "nivel_educativo" if modulo == "Estudiantes" else "tipo_personal"
             # Agrupamos para las métricas detalladas
