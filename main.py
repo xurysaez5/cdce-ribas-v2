@@ -336,8 +336,8 @@ else:
             roles = ["Docente"] if modulo == "Docentes" else ["Administrativo", "Obrero", "Cocineras", "Vigilantes"]
             query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query).in_("tipo_personal", roles)
 
-        res = query.execute()
-        df = pd.DataFrame(res.data)
+res = query.execute()
+df = pd.DataFrame(res.data)
         
         if not df.empty:
             v, h = df[col_v].sum(), df[col_h].sum()
