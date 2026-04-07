@@ -351,7 +351,7 @@ else:
                 cols_det[i].metric(
                     label=f"📍 {row[eje_x]}", 
                     value=sub_total,
-                    delta=f"♂{int(row[col_v])} | ♀{int(row[col_v])}",
+                    delta=f"♂{int(row[col_v])} | ♀{int(row[col_h])}",
                     delta_color="off" # El gris ayuda a no distraer del número principal
                 )
             st.write("---")
