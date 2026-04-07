@@ -395,5 +395,5 @@ if not df.empty:
             fig_horiz.update_layout(showlegend=False, height=300)
             
             st.plotly_chart(fig_horiz, use_container_width=True)        
-        else:
+else:
             st.info(f"No se encontraron registros para {mes_sel}.")
