@@ -342,5 +342,21 @@ else:
             df_g = df.groupby(eje_x).agg({col_v:'sum', col_h:'sum', col_av:'sum', col_ah:'sum'}).reset_index()
             fig = px.bar(df_g, x=eje_x, y=[col_v, col_h], barmode="group", template="plotly_white")
             st.plotly_chart(fig, use_container_width=True)
+            # --- NUEVO GRÁFICO DE ASISTENCIA (EL QUE FALTABA) ---
+            st.markdown("#### 📊 Comparativa de Asistencia")
+            df_g['Total_Asis'] = df_g[col_av] + df_g[col_ah]
+            
+            # Gráfico de barras horizontales
+            fig_asis = px.bar(
+                df_g, 
+                y=eje_x, 
+                x='Total_Asis', 
+                orientation='h',
+                title="Total Asistencia por Categoría",
+                labels={'Total_Asis': 'Personas que asistieron', eje_x: 'Nivel/Rol'},
+                color_discrete_sequence=['#2ECC71'], # Un verde suave para diferenciarlo
+                template="plotly_white"
+            )
+            st.plotly_chart(fig_asis, use_container_width=True)
         else:
             st.info(f"No se encontraron registros para {mes_sel}.")
