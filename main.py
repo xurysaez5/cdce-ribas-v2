@@ -355,7 +355,7 @@ else:
                     delta_color="off" # El gris ayuda a no distraer del número principal
                 )
             st.write("---")
-            fig = px.bar(df_g, x=eje_x, y=[col_v, col_h], barmode="group", template="plotly_white")
+            fig = px.bar(df_det, x=eje_x, y=[col_v, col_h], barmode="group", template="plotly_white")
             st.plotly_chart(fig, use_container_width=True)
             # --- GRÁFICO 2: COMPARATIVO MATRÍCULA VS ASISTENCIA (Horizontal) ---
             st.markdown("#### 📊 Comparativo Matrícula vs Asistencia")
