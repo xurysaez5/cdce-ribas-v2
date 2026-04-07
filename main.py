@@ -331,7 +331,7 @@ if modulo == "Condición Laboral":
 if modulo == "Estudiantes":
             tabla, col_v, col_h, col_av, col_ah = "estudiantes", "varones", "hembras", "asistencia_varones", "asistencia_hembras"
             query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query)
-        else:
+else:
             tabla, col_v, col_h, col_av, col_ah = "personal", "varones_contratados", "hembras_contratadas", "asistencia_v", "asistencia_h"
             roles = ["Docente"] if modulo == "Docentes" else ["Administrativo", "Obrero", "Cocineras", "Vigilantes"]
             query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query).in_("tipo_personal", roles)
