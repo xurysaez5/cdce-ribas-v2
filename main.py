@@ -328,16 +328,16 @@ if modulo == "Condición Laboral":
                 st.info(f"No hay registros para {mes_sel}.")
                 st.stop()
 
-    if modulo == "Estudiantes":
+        if modulo == "Estudiantes":
             tabla, col_v, col_h, col_av, col_ah = "estudiantes", "varones", "hembras", "asistencia_varones", "asistencia_hembras"
             query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query)
-        else:
+            else:
             tabla, col_v, col_h, col_av, col_ah = "personal", "varones_contratados", "hembras_contratadas", "asistencia_v", "asistencia_h"
             roles = ["Docente"] if modulo == "Docentes" else ["Administrativo", "Obrero", "Cocineras", "Vigilantes"]
             query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query).in_("tipo_personal", roles)
 
-        res = query.execute()
-        df = pd.DataFrame(res.data)
+            res = query.execute()
+            df = pd.DataFrame(res.data)
         if not df.empty:
             v, h = df[col_v].sum(), df[col_h].sum()
             av, ah = df[col_av].sum(), df[col_ah].sum()
