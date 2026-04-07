@@ -175,7 +175,8 @@ else:
         meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
                  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
         # El selector ahora es independiente y funciona para todos los roles
-        mes_sel = st.selectbox("📅 Período:", meses, index=datetime.now().month-1)
+        mes_anterior_index = (datetime.now().month - 2) % 12
+        mes_sel = st.selectbox("📅 Período:", meses, index=mes_anterior_index)
 
     st.write("")
     st.markdown("<h1 style='text-align: center; color: #1f3b64;'>Sistema Integrado de Estadísticas</h1>", unsafe_allow_html=True)
