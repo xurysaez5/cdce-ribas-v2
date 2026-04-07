@@ -341,6 +341,7 @@ else:
             eje_x = "nivel_educativo" if modulo == "Estudiantes" else "tipo_personal"
             df_g = df.groupby(eje_x).agg({col_v:'sum', col_h:'sum', col_av:'sum', col_ah:'sum'}).reset_index()
             fig = px.bar(df_g, x=eje_x, y=[col_v, col_h], barmode="group", template="plotly_white")
+            st.plotly_chart(fig, use_container_width=True)
             # --- GRÁFICO 2: COMPARATIVO MATRÍCULA VS ASISTENCIA (Horizontal) ---
             st.markdown("#### 📊 Comparativo Matrícula vs Asistencia")
             
