@@ -339,8 +339,22 @@ else:
             k3.metric("Hembras", f"{int(h)}")
             k4.metric("Asistencia", f"{int(av + ah)}")
             k5.metric("% Real", f"{porc:.1f}%")
+            # --- FILA 2: DESGLOSE POR NIVEL/ROL ---
+            st.markdown("#### 🔍 Desglose por Categoría")
             eje_x = "nivel_educativo" if modulo == "Estudiantes" else "tipo_personal"
-            df_g = df.groupby(eje_x).agg({col_v:'sum', col_h:'sum', col_av:'sum', col_ah:'sum'}).reset_index()
+            # Agrupamos para las métricas detalladas
+            df_det = df.groupby(eje_x).agg({col_v:'sum', col_h:'sum'}).reset_index()
+            # Creamos columnas dinámicas según la cantidad de niveles que existan en los datos
+            cols_det = st.columns(len(df_det))
+            for i, row in df_det.iterrows():
+                sub_total = int(row[col_v] + row[col_h])
+                cols_det[i].metric(
+                    label=f"📍 {row[eje_x]}", 
+                    value=sub_total,
+                    delta=f"♂{int(row[col_v])} | ♀{int(row[col_v])}",
+                    delta_color="off" # El gris ayuda a no distraer del número principal
+                )
+            st.write("---")
             fig = px.bar(df_g, x=eje_x, y=[col_v, col_h], barmode="group", template="plotly_white")
             st.plotly_chart(fig, use_container_width=True)
             # --- GRÁFICO 2: COMPARATIVO MATRÍCULA VS ASISTENCIA (Horizontal) ---
