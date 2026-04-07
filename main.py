@@ -339,7 +339,7 @@ else:
 res = query.execute()
 df = pd.DataFrame(res.data)
         
-        if not df.empty:
+if not df.empty:
             v, h = df[col_v].sum(), df[col_h].sum()
             av, ah = df[col_av].sum(), df[col_ah].sum()
             total = v + h
