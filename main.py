@@ -336,7 +336,8 @@ else:
             
             if not df.empty:
                 # ... (resto de tu lógica de gráficos e indicadores, toda indentada dentro del else) ...
-                v, h = df[col_v].sum(), df[col_h].sum()            av, ah = df[col_av].sum(), df[col_ah].sum()
+                v, h = df[col_v].sum(), df[col_h].sum()            
+                av, ah = df[col_av].sum(), df[col_ah].sum()
             total = v + h
             porc = ((av + ah) / total * 100) if total > 0 else 0
             
