@@ -258,7 +258,7 @@ else:
                                 st.success("✅ ¡Éxito!")
                             except Exception as e: st.error(f"❌ Error: {e}")
 
-    # --- MÓDULO DE CONSULTA ---
+# --- MÓDULO DE CONSULTA ---
     else:
         modulo = st.radio("Módulo:", ["Estudiantes", "Docentes", "Personal No Docente", "Condición Laboral"], horizontal=True)
         escuelas_ids_usuario = u_data.get('escuelas_asignadas', [])
@@ -284,20 +284,16 @@ else:
             inst_nom = st.selectbox("Institución:", df_ver['nombre_actual'])
             ids_para_query = [df_ver[df_ver['nombre_actual'] == inst_nom]['id'].values[0]]
 
-if modulo == "Condición Laboral":
+        # --- TODO ESTO DEBE IR DENTRO DEL 'ELSE' (CON INDENTACIÓN) ---
+        if modulo == "Condición Laboral":
             res_lab = supabase.table("condicion_laboral").select("*").eq("mes", mes_sel).in_("escuela_id", ids_para_query).execute()
             df_lab = pd.DataFrame(res_lab.data)
             
             if not df_lab.empty:
-                # Mapeo de nombres
                 df_lab['Cargo'] = df_lab['cargo_id'].map(df_cat_car.set_index('id')['nombre'].to_dict())
                 df_lab['Condición'] = df_lab['condicion_id'].map(df_cat_con.set_index('id')['nombre'].to_dict())
-                
-                # IMPORTANTE: Agrupamos por escuela_id para que el supervisor vea de quién es cada dato
                 df_res = df_lab.groupby(['escuela_id', 'Condición', 'Cargo']).agg({'varones': 'sum', 'hembras': 'sum'}).reset_index()
                 df_res['Total'] = df_res['varones'] + df_res['hembras']
-                
-                # Mapeamos el nombre de la institución usando el df_ver que ya cargaste arriba
                 dict_escuelas = df_ver.set_index('id')['nombre_actual'].to_dict()
                 df_res['Institución'] = df_res['escuela_id'].map(dict_escuelas)
 
@@ -313,7 +309,7 @@ if modulo == "Condición Laboral":
                 for i, r in df_res.iterrows():
                     with c_tarjetas[i % 2]:
                         st.markdown(f"""
-                            <div style="background-color: white; padding: 20px; border-radius: 20px; border-left: 10px solid #4A90E2; box-shadow: 4px 4px 15px rgba(0,0,0,0.1); margin-bottom: 25px; min-height: 250px;">
+                            <div class="card">
                                 <p style="color: #7F8C8D; font-size: 0.8rem; margin-bottom: 5px; font-weight: bold;">🏫 {r['Institución']}</p>
                                 <h3 style="color: #002D57; margin-top: 0px;">{r['Cargo']}</h3>
                                 <div style="display: flex; justify-content: space-between; align-items: center; background-color: #F8F9FA; padding: 10px; border-radius: 12px;">
@@ -323,25 +319,24 @@ if modulo == "Condición Laboral":
                                 <p style="margin-top: 10px; font-weight: bold; color: #34495E;">{r['Condición']}</p>
                             </div>
                         """, unsafe_allow_html=True)
-                st.stop()
             else:
                 st.info(f"No hay registros para {mes_sel}.")
-                st.stop()
 
-if modulo == "Estudiantes":
-            tabla, col_v, col_h, col_av, col_ah = "estudiantes", "varones", "hembras", "asistencia_varones", "asistencia_hembras"
-            query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query)
-else:
-            tabla, col_v, col_h, col_av, col_ah = "personal", "varones_contratados", "hembras_contratadas", "asistencia_v", "asistencia_h"
-            roles = ["Docente"] if modulo == "Docentes" else ["Administrativo", "Obrero", "Cocineras", "Vigilantes"]
-            query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query).in_("tipo_personal", roles)
+        else: # Si el módulo es Estudiantes, Docentes o No Docente
+            if modulo == "Estudiantes":
+                tabla, col_v, col_h, col_av, col_ah = "estudiantes", "varones", "hembras", "asistencia_varones", "asistencia_hembras"
+                query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query)
+            else:
+                tabla, col_v, col_h, col_av, col_ah = "personal", "varones_contratados", "hembras_contratadas", "asistencia_v", "asistencia_h"
+                roles = ["Docente"] if modulo == "Docentes" else ["Administrativo", "Obrero", "Cocineras", "Vigilantes"]
+                query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query).in_("tipo_personal", roles)
 
-res = query.execute()
-df = pd.DataFrame(res.data)
-        
-if not df.empty:
-            v, h = df[col_v].sum(), df[col_h].sum()
-            av, ah = df[col_av].sum(), df[col_ah].sum()
+            res = query.execute()
+            df = pd.DataFrame(res.data)
+            
+            if not df.empty:
+                # ... (resto de tu lógica de gráficos e indicadores, toda indentada dentro del else) ...
+                v, h = df[col_v].sum(), df[col_h].sum()            av, ah = df[col_av].sum(), df[col_ah].sum()
             total = v + h
             porc = ((av + ah) / total * 100) if total > 0 else 0
             
