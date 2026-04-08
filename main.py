@@ -283,7 +283,7 @@ else:
         elif alcance == "🏫 Institución":
             inst_nom = st.selectbox("Institución:", df_ver['nombre_actual'])
             ids_para_query = [df_ver[df_ver['nombre_actual'] == inst_nom]['id'].values[0]]
-
+modulo = None
 if modulo == "Condición Laboral":
             res_lab = supabase.table("condicion_laboral").select("*").eq("mes", mes_sel).in_("escuela_id", ids_para_query).execute()
             df_lab = pd.DataFrame(res_lab.data)
