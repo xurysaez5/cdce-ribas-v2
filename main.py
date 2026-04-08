@@ -181,6 +181,7 @@ else:
     st.write("")
     st.markdown("<h1 style='text-align: center; color: #1f3b64;'>Sistema Integrado de Estadísticas</h1>", unsafe_allow_html=True)
     modulo = None
+    ids_para_query = []
     modo = st.pills("Acción:", ["📊 Consultar", "📥 Cargar Datos"], default="📊 Consultar") if rol_usuario in ["admin", "director"] else "📊 Consultar"
 
     # --- MÓDULO DE CARGA ---
