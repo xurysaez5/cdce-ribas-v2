@@ -275,36 +275,37 @@ else:
 
         alcance = st.selectbox("Agrupación:", ["🌍 Municipio", "🛰️ Circuito", "🏫 Institución"])
         ids_para_query = ids_para_query_global
-# --- REPORTE COMPACTO PARA SUPERVISOR ---
         if rol_usuario in ["admin", "supervisor"] and alcance != "🏫 Institución":
-            # Determinamos la tabla y columna de mes según el módulo
-            tabla_aud = "estudiantes" if modulo == "Estudiantes" else "personal" if modulo in ["Docentes", "Personal No Docente"] else "condicion_laboral"
-            col_m = "mes_carga" if tabla_aud != "condicion_laboral" else "mes"
-            
-            # Consulta rápida a Supabase
-            res_aud = supabase.table(tabla_aud).select("escuela_id").eq(col_m, mes_sel).in_("escuela_id", ids_para_query).execute()
+            st.write("---")
+            tipo_rep = st.pills(
+                "Ver estado de carga:",
+                ["Completados ✅", "Pendientes ❌"], 
+                default="Completados ✅"
+            )
+            tabla_auditoria = "estudiantes" if modulo == "Estudiantes" else "personal" if modulo in ["Docentes", "Personal No Docente"] else "condicion_laboral"
+            col_mes = "mes_carga" if tabla_auditoria != "condicion_laboral" else "mes"
+            res_aud = supabase.table(tabla_auditoria).select("escuela_id").eq(col_mes, mes_sel).in_("escuela_id", ids_para_query).execute()
             ids_cargados = set([r['escuela_id'] for r in res_aud.data]) if res_aud.data else set()
-
-            # Usamos un Expander para ahorrar espacio
-            with st.expander("📋 AUDITAR CUMPLIMIENTO (Toca para ver lista)"):
-                tipo_rep = st.segment_control(
-                    "Mostrar:", ["Completados ✅", "Pendientes ❌"], default="Completados ✅"
-                )
-                
-                # Lista simplificada en una sola línea de texto o etiquetas pequeñas
-                html_lista = ""
-                for _, esc in df_ver.iterrows():
-                    if esc['id'] in ids_para_query:
-                        cargado = esc['id'] in ids_cargados
-                        if (tipo_rep == "Completados ✅" and cargado) or (tipo_rep == "Pendientes ❌" and not cargado):
-                            color = "#2ECC71" if cargado else "#E74C3C"
-                            html_lista += f'<span style="color:{color}; font-weight:bold; font-size:0.8rem;">• {esc["nombre_actual"]} </span> '
-
-                if html_lista:
-                    st.markdown(f'<div style="background-color:rgba(255,255,255,0.5); padding:10px; border-radius:5px;">{html_lista}</div>', unsafe_allow_html=True)
-                else:
-                    st.write("No hay registros en esta categoría.")            
-                    st.write("---")
+            st.markdown(f"**Instituciones {tipo_rep}:**")
+            # Listamos las escuelas del alcance seleccionado
+            count_res = 0
+            for _, esc in df_ver.iterrows():
+                if esc['id'] in ids_para_query:
+                    ha_cargado = esc['id'] in ids_cargados
+                    mostrar = (tipo_rep == "Completados ✅" and ha_cargado) or \
+                    (tipo_rep == "Pendientes ❌" and not ha_cargado)
+                    if mostrar:
+                        count_res += 1
+                        st.markdown(f"""
+                            <div style="background-color: white; padding: 10px; border-radius: 8px;
+                                        border-left: 5px solid {'#2ECC71' if ha_cargado else '#E74C3C'}; 
+                                        margin-bottom: 5px; box-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
+                                <span style="font-size: 0.9rem; font-weight: bold; color: #002D57;">{esc['nombre_actual']}</span>
+                            </div>
+                        """, unsafe_allow_html=True)
+            if count_res == 0:
+                st.info(f"No hay escuelas en la lista de {tipo_rep}.")
+            st.write("---")
         ids_para_query = ids_para_query_global
 
         if alcance == "🛰️ Circuito":
