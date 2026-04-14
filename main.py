@@ -274,6 +274,7 @@ else:
             ids_para_query_global = escuelas_ids_usuario
 
         alcance = st.selectbox("Agrupación:", ["🌍 Municipio", "🛰️ Circuito", "🏫 Institución"])
+        ids_para_query = ids_para_query_global
         if rol_usuario in ["admin", "supervisor"] and alcance != "🏫 Institución":
             st.write("---")
             tipo_rep = st.pills(
