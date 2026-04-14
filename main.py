@@ -278,7 +278,7 @@ else:
 # --- REPORTE DE AUDITORÍA PARA SUPERVISOR (COMPACTO) ---
         if rol_usuario in ["admin", "supervisor"] and alcance != "🏫 Institución":
             # Usamos un expander para ahorrar espacio en el móvil
-            with st.expander("#### **📋 Ver estado de carga (Completados / Pendientes)**"):
+            with st.expander("📋 <span style='font-size: 1.1rem; font-weight: bold;'>Ver estado de carga (Completados / Pendientes)</span>", expanded=False):
                 tipo_rep = st.pills(
                     "Seleccione:",
                     ["Completados ✅", "Pendientes ❌"], 
