@@ -315,7 +315,8 @@ else:
                 if count_res == 0:
                     st.info(f"No hay escuelas en la lista de {tipo_rep}.")
             
-            st.write("---")        ids_para_query = ids_para_query_global
+            st.write("---")        
+            ids_para_query = ids_para_query_global
 
         if alcance == "🛰️ Circuito":
             circ_nom = st.selectbox("Circuito:", df_circuitos['nombre'])
