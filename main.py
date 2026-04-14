@@ -274,6 +274,37 @@ else:
             ids_para_query_global = escuelas_ids_usuario
 
         alcance = st.selectbox("Agrupación:", ["🌍 Municipio", "🛰️ Circuito", "🏫 Institución"])
+        if rol_usuario in ["admin", "supervisor"] and alcance != "🏫 Institución":
+            st.write("---")
+            tipo_rep = st.pills(
+                "Ver estado de carga:",
+                ["Completados ✅", "Pendientes ❌"], 
+                default="Completados ✅"
+            )
+            tabla_auditoria = "estudiantes" if modulo == "Estudiantes" else "personal" if modulo in ["Docentes", "Personal No Docente"] else "condicion_laboral"
+            col_mes = "mes_carga" if tabla_auditoria != "condicion_laboral" else "mes"
+            res_aud = supabase.table(tabla_auditoria).select("escuela_id").eq(col_mes, mes_sel).in_("escuela_id", ids_para_query).execute()
+            ids_cargados = set([r['escuela_id'] for r in res_aud.data]) if res_aud.data else set()
+            st.markdown(f"**Instituciones {tipo_rep}:**")
+            # Listamos las escuelas del alcance seleccionado
+            count_res = 0
+            for _, esc in df_ver.iterrows():
+                if esc['id'] in ids_para_query:
+                    ha_cargado = esc['id'] in ids_cargados
+                    mostrar = (tipo_rep == "Completados ✅" and ha_cargado) or \
+                    (tipo_rep == "Pendientes ❌" and not ha_cargado)
+                    if mostrar:
+                        count_res += 1
+                        st.markdown(f"""
+                            <div style="background-color: white; padding: 10px; border-radius: 8px;
+                                        border-left: 5px solid {'#2ECC71' if ha_cargado else '#E74C3C'}; 
+                                        margin-bottom: 5px; box-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
+                                <span style="font-size: 0.9rem; font-weight: bold; color: #002D57;">{esc['nombre_actual']}</span>
+                            </div>
+                        """, unsafe_allow_html=True)
+            if count_res == 0:
+                st.info(f"No hay escuelas en la lista de {tipo_rep}.")
+            st.write("---")
         ids_para_query = ids_para_query_global
 
         if alcance == "🛰️ Circuito":
@@ -330,6 +361,7 @@ if modulo == "Condición Laboral":
                 st.stop()
 
 if modulo == "Estudiantes":
+    
             tabla, col_v, col_h, col_av, col_ah = "estudiantes", "varones", "hembras", "asistencia_varones", "asistencia_hembras"
             query = supabase.table(tabla).select("*").eq("mes_carga", mes_sel).in_("escuela_id", ids_para_query)
 else:
@@ -396,5 +428,6 @@ if not df.empty:
             fig_horiz.update_layout(showlegend=False, height=300)
             
             st.plotly_chart(fig_horiz, use_container_width=True)        
+
 else:
             st.info(f"No se encontraron registros para {mes_sel}.")
