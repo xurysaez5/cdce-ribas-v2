@@ -303,7 +303,8 @@ else:
                 if html_lista:
                     st.markdown(f'<div style="background-color:rgba(255,255,255,0.5); padding:10px; border-radius:5px;">{html_lista}</div>', unsafe_allow_html=True)
                 else:
-                    st.write("No hay registros en esta categoría.")            st.write("---")
+                    st.write("No hay registros en esta categoría.")            
+                    st.write("---")
         ids_para_query = ids_para_query_global
 
         if alcance == "🛰️ Circuito":
