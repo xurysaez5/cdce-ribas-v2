@@ -211,14 +211,19 @@ else:
                         h_as = st.number_input("Asistencia Promedio H:", min_value=0.0)
                     if st.form_submit_button("🚀 GUARDAR ESTUDIANTES"):
                         total_inscritos = v_in + h_in
+                        total_asistencia = v_as + h_as
                         if total_inscritos > 0:
+                           if total_asistencia > total_inscritos:
+                               st.error(f"⚠️ **Error de Congruencia:** La asistencia total ({total_asistencia}) no puede ser mayor a la matrícula inscrita ({total_inscritos}). Por favor, corrija los valores.")
+                            else: 
                             p_real = ((v_as + h_as) / total_inscritos) * 100
                             datos = {"escuela_id": int(id_inst), "mes_carga": mes_sel, "ano_escolar": "2025-2026", "nivel_educativo": n_sel_c, "detalle_grupo": g_sel_c, "varones": v_in, "hembras": h_in, "total_matricula": total_inscritos, "asistencia_varones": v_as, "asistencia_hembras": h_as, "asistencia_promedio_real": round(p_real, 2)}
                             try:
                                 supabase.table("estudiantes").upsert(datos, on_conflict="escuela_id, nivel_educativo, detalle_grupo, mes_carga, ano_escolar").execute()
                                 st.success("✅ ¡Datos guardados!")
                             except Exception as e: st.error(f"❌ Error: {e}")
-
+                        else:
+                            st.warning("⚠️ La matrícula total debe ser mayor a cero para poder guardar.")
             with t2: # Personal
                 niveles_p = {"Inicial": ["maternal", "preescolar"], "Primaria": ["primaria"], "Media": ["media general", "media técnica"], "Especial": ["educacion especial"], "Otros": ["no aplica"]}
                 np_s = st.selectbox("Nivel Educativo:", list(niveles_p.keys()))
