@@ -222,7 +222,7 @@ else:
                                 supabase.table("estudiantes").upsert(datos, on_conflict="escuela_id, nivel_educativo, detalle_grupo, mes_carga, ano_escolar").execute()
                                 st.success("✅ ¡Datos guardados!")
                             except Exception as e: st.error(f"❌ Error: {e}")
-                        else:
+                    else:
                             st.warning("⚠️ La matrícula total debe ser mayor a cero para poder guardar.")
             with t2: # Personal
                 niveles_p = {"Inicial": ["maternal", "preescolar"], "Primaria": ["primaria"], "Media": ["media general", "media técnica"], "Especial": ["educacion especial"], "Otros": ["no aplica"]}
