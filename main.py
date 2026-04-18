@@ -210,6 +210,8 @@ else:
                         h_in = st.number_input("Hembras Inscritas:", min_value=0, step=1)
                         h_as = st.number_input("Asistencia Promedio H:", min_value=0.0)
                     if st.form_submit_button("🚀 GUARDAR ESTUDIANTES"):
+                        if (v_as + h_as) == 0:
+                            st.warning("⚠️ **Aviso:** Ha dejado la asistencia en 0. El sistema registrará que no hubo asistencia en este período.")
                         total_inscritos = v_in + h_in
                         total_asistencia = v_as + h_as
                         if total_inscritos > 0:
