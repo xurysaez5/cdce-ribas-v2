@@ -252,7 +252,7 @@ if st.form_submit_button("🚀 GUARDAR ESTUDIANTES") or st.session_state.get("co
                                     except Exception as e: st.error(f"❌ Error: {e}")
                             else:
                                 st.warning("⚠️ La matrícula total debe ser mayor a cero para poder guardar.")
-            with t2: # Personal
+                with t2: # Personal
                 niveles_p = {"Inicial": ["maternal", "preescolar"], "Primaria": ["primaria"], "Media": ["media general", "media técnica"], "Especial": ["educacion especial"], "Otros": ["no aplica"]}
                 np_s = st.selectbox("Nivel Educativo:", list(niveles_p.keys()))
                 sub_np_s = st.selectbox("Detalle:", niveles_p[np_s])
