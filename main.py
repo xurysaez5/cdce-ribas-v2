@@ -58,12 +58,12 @@ st.markdown("""
     """, unsafe_allow_html=True)
 #Aqui viene el código para declarar la alerta de asistencia en cero
 @st.dialog("⚠️ Alerta de Asistencia")
-def confirmar_asistencia_cero():
+def confirmar_asistencia_cero(datos_form):
     st.warning("Has dejado la asistencia en 0. El sistema registrará que **no hubo asistencia** en este período.")
     if st.button("Entendido, proceder a guardar", use_container_width=True):
         st.session_state["confirmar_cero"] = True
-        st.rerun()
-        
+        st.session_state["datos_pendientes"] = datos_form # Guardamos los datos temporalmente
+        st.rerun()        
 # --- VENTANA DE CONFIGURACIÓN ---
 @st.dialog("Configuración de Perfil")
 def ventana_configuracion():
@@ -216,36 +216,40 @@ else:
                     with c_h:
                         h_in = st.number_input("Hembras Inscritas:", min_value=0, step=1)
                         h_as = st.number_input("Asistencia Promedio H:", min_value=0.0)
-                    if st.form_submit_button("🚀 GUARDAR ESTUDIANTES"):
+if st.form_submit_button("🚀 GUARDAR ESTUDIANTES") or st.session_state.get("confirmar_cero"):
+                        # Recuperamos datos si vienen de la confirmación o directamente del formulario
+                        if st.session_state.get("confirmar_cero"):
+                            d = st.session_state["datos_pendientes"]
+                            v_in, h_in, v_as, h_as = d['vi'], d['hi'], d['va'], d['ha']
+                        else:
+                            # Datos directos del formulario
+                            v_in, h_in, v_as, h_as = v_in, h_in, v_as, h_as 
+
                         total_asistencia = v_as + h_as
                         total_inscritos = v_in + h_in
                         
-                        # A. Validamos si la asistencia es cero para mostrar el diálogo
                         if total_asistencia == 0 and not st.session_state.get("confirmar_cero"):
-                            confirmar_asistencia_cero()
-                        
-                        # B. Si ya confirmó o la asistencia no es cero, procedemos
+                            confirmar_asistencia_cero({'vi': v_in, 'hi': h_in, 'va': v_as, 'ha': h_as})
                         else:
                             if total_inscritos > 0:
                                 if total_asistencia > total_inscritos:
-                                    st.error(f"⚠️ **Error de Congruencia:** La asistencia ({total_asistencia}) no puede ser mayor a la matrícula ({total_inscritos}).")
+                                    st.error(f"⚠️ **Error de Congruencia**...")
                                 else:
-                                    # Aquí sigue tu código de cálculo y guardado (p_real, datos, upsert...)
+                                    # Lógica de guardado normal
                                     p_real = (total_asistencia / total_inscritos) * 100
-                                    # ... (resto del código de guardado que ya tienes)
-                                    
-                                    # Al final del guardado exitoso, reseteamos para la próxima carga
-                                    st.session_state["confirmar_cero"] = False
-                            else:
-                                #st.warning("⚠️ La matrícula debe ser mayor a cero.")
-                                st.error(f"⚠️ **Error de Congruencia:** La asistencia total ({total_asistencia}) no puede ser mayor a la matrícula inscrita ({total_inscritos}). Por favor, corrija los valores.")
-                           
-                            p_real = ((v_as + h_as) / total_inscritos) * 100
-                            datos = {"escuela_id": int(id_inst), "mes_carga": mes_sel, "ano_escolar": "2025-2026", "nivel_educativo": n_sel_c, "detalle_grupo": g_sel_c, "varones": v_in, "hembras": h_in, "total_matricula": total_inscritos, "asistencia_varones": v_as, "asistencia_hembras": h_as, "asistencia_promedio_real": round(p_real, 2)}
-                            try:
-                                supabase.table("estudiantes").upsert(datos, on_conflict="escuela_id, nivel_educativo, detalle_grupo, mes_carga, ano_escolar").execute()
-                                st.success("✅ ¡Datos guardados!")
-                            except Exception as e: st.error(f"❌ Error: {e}")
+                                    datos = {
+                                        "escuela_id": int(id_inst), "mes_carga": mes_sel, "ano_escolar": "2025-2026",
+                                        "nivel_educativo": n_sel_c, "detalle_grupo": g_sel_c, "varones": v_in,
+                                        "hembras": h_in, "total_matricula": total_inscritos, "asistencia_varones": v_as,
+                                        "asistencia_hembras": h_as, "asistencia_promedio_real": round(p_real, 2)
+                                    }
+                                    try:
+                                        supabase.table("estudiantes").upsert(datos, on_conflict="escuela_id, nivel_educativo, detalle_grupo, mes_carga, ano_escolar").execute()
+                                        st.success("✅ ¡Datos guardados!")
+                                        # Limpiamos la sesión tras el éxito
+                                        st.session_state["confirmar_cero"] = False
+                                        st.session_state["datos_pendientes"] = None
+                                    except Exception as e: st.error(f"❌ Error: {e}")
                     else:
                             st.warning("⚠️ La matrícula total debe ser mayor a cero para poder guardar.")
             with t2: # Personal
