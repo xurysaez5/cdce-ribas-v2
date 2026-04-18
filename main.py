@@ -215,7 +215,8 @@ else:
                         v_as = st.number_input("Asistencia Promedio V:", min_value=0.0)
                     with c_h:
                         h_in = st.number_input("Hembras Inscritas:", min_value=0, step=1)
-                        h_as = st.number_input("Asistencia Promedio H:", min_value=0.0)if st.form_submit_button("🚀 GUARDAR ESTUDIANTES"):
+                        h_as = st.number_input("Asistencia Promedio H:", min_value=0.0)
+                    if st.form_submit_button("🚀 GUARDAR ESTUDIANTES"):
                         total_asistencia = v_as + h_as
                         total_inscritos = v_in + h_in
                         
