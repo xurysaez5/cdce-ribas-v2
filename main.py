@@ -238,7 +238,7 @@ else:
                                     st.session_state["confirmar_cero"] = False
                             else:
                                 st.warning("⚠️ La matrícula debe ser mayor a cero.")
-                               st.error(f"⚠️ **Error de Congruencia:** La asistencia total ({total_asistencia}) no puede ser mayor a la matrícula inscrita ({total_inscritos}). Por favor, corrija los valores.")
+                                st.error(f"⚠️ **Error de Congruencia:** La asistencia total ({total_asistencia}) no puede ser mayor a la matrícula inscrita ({total_inscritos}). Por favor, corrija los valores.")
                            else: 
                             p_real = ((v_as + h_as) / total_inscritos) * 100
                             datos = {"escuela_id": int(id_inst), "mes_carga": mes_sel, "ano_escolar": "2025-2026", "nivel_educativo": n_sel_c, "detalle_grupo": g_sel_c, "varones": v_in, "hembras": h_in, "total_matricula": total_inscritos, "asistencia_varones": v_as, "asistencia_hembras": h_as, "asistencia_promedio_real": round(p_real, 2)}
