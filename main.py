@@ -56,7 +56,14 @@ st.markdown("""
     div[data-testid="stMarkdownContainer"] { color: inherit; }
     </style>
     """, unsafe_allow_html=True)
-
+#Aqui viene el código para declarar la alerta de asistencia en cero
+@st.dialog("⚠️ Alerta de Asistencia")
+def confirmar_asistencia_cero():
+    st.warning("Has dejado la asistencia en 0. El sistema registrará que **no hubo asistencia** en este período.")
+    if st.button("Entendido, proceder a guardar", use_container_width=True):
+        st.session_state["confirmar_cero"] = True
+        st.rerun()
+        
 # --- VENTANA DE CONFIGURACIÓN ---
 @st.dialog("Configuración de Perfil")
 def ventana_configuracion():
@@ -208,14 +215,28 @@ else:
                         v_as = st.number_input("Asistencia Promedio V:", min_value=0.0)
                     with c_h:
                         h_in = st.number_input("Hembras Inscritas:", min_value=0, step=1)
-                        h_as = st.number_input("Asistencia Promedio H:", min_value=0.0)
-                    if st.form_submit_button("🚀 GUARDAR ESTUDIANTES"):
-                        if (v_as + h_as) == 0:
-                            st.warning("⚠️ **Aviso:** Ha dejado la asistencia en 0. El sistema registrará que no hubo asistencia en este período.")
-                        total_inscritos = v_in + h_in
+                        h_as = st.number_input("Asistencia Promedio H:", min_value=0.0)if st.form_submit_button("🚀 GUARDAR ESTUDIANTES"):
                         total_asistencia = v_as + h_as
-                        if total_inscritos > 0:
-                           if total_asistencia > total_inscritos:
+                        total_inscritos = v_in + h_in
+                        
+                        # A. Validamos si la asistencia es cero para mostrar el diálogo
+                        if total_asistencia == 0 and not st.session_state.get("confirmar_cero"):
+                            confirmar_asistencia_cero()
+                        
+                        # B. Si ya confirmó o la asistencia no es cero, procedemos
+                        else:
+                            if total_inscritos > 0:
+                                if total_asistencia > total_inscritos:
+                                    st.error(f"⚠️ **Error de Congruencia:** La asistencia ({total_asistencia}) no puede ser mayor a la matrícula ({total_inscritos}).")
+                                else:
+                                    # Aquí sigue tu código de cálculo y guardado (p_real, datos, upsert...)
+                                    p_real = (total_asistencia / total_inscritos) * 100
+                                    # ... (resto del código de guardado que ya tienes)
+                                    
+                                    # Al final del guardado exitoso, reseteamos para la próxima carga
+                                    st.session_state["confirmar_cero"] = False
+                            else:
+                                st.warning("⚠️ La matrícula debe ser mayor a cero.")
                                st.error(f"⚠️ **Error de Congruencia:** La asistencia total ({total_asistencia}) no puede ser mayor a la matrícula inscrita ({total_inscritos}). Por favor, corrija los valores.")
                            else: 
                             p_real = ((v_as + h_as) / total_inscritos) * 100
