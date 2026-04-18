@@ -237,7 +237,7 @@ else:
                                     # Al final del guardado exitoso, reseteamos para la próxima carga
                                     st.session_state["confirmar_cero"] = False
                             else:
-                                st.warning("⚠️ La matrícula debe ser mayor a cero.")
+                                #st.warning("⚠️ La matrícula debe ser mayor a cero.")
                                 st.error(f"⚠️ **Error de Congruencia:** La asistencia total ({total_asistencia}) no puede ser mayor a la matrícula inscrita ({total_inscritos}). Por favor, corrija los valores.")
                            
                             p_real = ((v_as + h_as) / total_inscritos) * 100
