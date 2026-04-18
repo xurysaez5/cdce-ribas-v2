@@ -216,7 +216,7 @@ else:
                     with c_h:
                         h_in = st.number_input("Hembras Inscritas:", min_value=0, step=1)
                         h_as = st.number_input("Asistencia Promedio H:", min_value=0.0)
-if st.form_submit_button("🚀 GUARDAR ESTUDIANTES") or st.session_state.get("confirmar_cero"):
+                if st.form_submit_button("🚀 GUARDAR ESTUDIANTES") or st.session_state.get("confirmar_cero"):
                         # Recuperamos datos si vienen de la confirmación o directamente del formulario
                         if st.session_state.get("confirmar_cero"):
                             d = st.session_state["datos_pendientes"]
