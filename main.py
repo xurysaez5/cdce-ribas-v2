@@ -266,6 +266,24 @@ else:
                                     st.error(f"❌ Error: {e}")
                         else:
                             st.warning("⚠️ Debe ingresar al menos un personal contratado.")
+            with t3: # Laboral
+                if not df_cat_car.empty:
+                    with st.form("f_lab_v3", clear_on_submit=True):
+                        cl1, cl2 = st.columns(2)
+                        with cl1:
+                            d_car = dict(zip(df_cat_car['nombre'], df_cat_car['id']))
+                            d_con = dict(zip(df_cat_con['nombre'], df_cat_con['id']))
+                            c_s = st.selectbox("Cargo:", list(d_car.keys()))
+                            co_s = st.selectbox("Condición:", list(d_con.keys()))
+                        with cl2:
+                            lv = st.number_input("Varones:", min_value=0)
+                            lh = st.number_input("Hembras:", min_value=0)
+                        if st.form_submit_button("🚀 GUARDAR CONDICIÓN"):
+                            datos_l = {"escuela_id": int(id_inst), "mes": mes_sel, "ano_escolar": "2025-2026", "cargo_id": d_car[c_s], "condicion_id": d_con[co_s], "varones": int(lv), "hembras": int(lh)}
+                            try:
+                                supabase.table("condicion_laboral").upsert(datos_l, on_conflict="escuela_id, mes, ano_escolar, cargo_id, condicion_id").execute()
+                                st.success("✅ ¡Éxito!")
+                            except Exception as e: st.error(f"❌ Error: {e}")
 
     # --- MÓDULO DE CONSULTA ---
     else:
