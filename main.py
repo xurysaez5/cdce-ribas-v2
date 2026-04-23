@@ -78,7 +78,7 @@ def ventana_configuracion():
 #función para que surja la ventana flotante de alerta de asistencia vacia
 @st.dialog(" ")
 def alerta_asistencia():
-    st.markdown("<h3 style='text-align: center;'>⚠️ ¡Atención!</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center;'>⚠️ ¡ATENCIÓN!</h3>", unsafe_allow_html=True)
     st.write("No ha ingresado valores en el **Promedio de Asistencia**. Este dato es obligatorio para el módulo de estudiantes.")
     if st.button("Cerrar para corregir", use_container_width=True):
         st.rerun()
