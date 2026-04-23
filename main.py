@@ -76,7 +76,7 @@ def ventana_configuracion():
                 st.error("Error al conectar.")
 
 #función para que surja la ventana flotante de alerta de asistencia vacia
-@st.dialog("⚠️ ASISTENCIA VACÍA ⚠️")
+@st.dialog()
 def alerta_asistencia():
     st.markdown("<h3 style='text-align: center;'>⚠️ ¡Atención!</h3>", unsafe_allow_html=True)
     st.write("No ha ingresado valores en el **Promedio de Asistencia**. Este dato es obligatorio para el módulo de estudiantes.")
