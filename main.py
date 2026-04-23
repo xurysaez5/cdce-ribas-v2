@@ -178,20 +178,15 @@ else:
             st.rerun()
 
 # 2. Logo y Período
-        c_mes, c_vacio = st.columns([2, 4])
-        with c_mes:
-            meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
-                     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+# Si el día actual es 25 o más, muestra el mes actual (Abril), si no, el anterior (Marzo)
+        hoy = datetime.now()
+        if hoy.day >= 25:
+            mes_defecto_index = hoy.month - 1
+        else:
+            mes_defecto_index = (hoy.month - 2) % 12
             
-            # Calcula el índice base (Mes anterior)
-            idx = (datetime.now().month - 2) % 12
-            
-            # Si es día 25 o más, avanza al siguiente mes en la lista
-            if datetime.now().day >= 25:
-                idx = (idx + 1) % 12
-
-            mes_sel = st.selectbox("📅 Período:", meses, index=idx)
-    st.write("")
+        mes_sel = st.selectbox("📅 Período:", meses, index=mes_defecto_index)
+        st.write("")
     st.markdown("<h1 style='text-align: center; color: #1f3b64;'>Sistema Integrado de Estadísticas</h1>", unsafe_allow_html=True)
     modulo = None
     ids_para_query = []
