@@ -75,6 +75,14 @@ def ventana_configuracion():
             except: 
                 st.error("Error al conectar.")
 
+#función para que surja la ventana flotante de alerta de asistencia vacia
+@st.dialog("⚠️ ASISTENCIA VACÍA ⚠️")
+def alerta_asistencia():
+    st.markdown("<h3 style='text-align: center;'>⚠️ ¡Atención!</h3>", unsafe_allow_html=True)
+    st.write("No ha ingresado valores en el **Promedio de Asistencia**. Este dato es obligatorio para el módulo de estudiantes.")
+    if st.button("Cerrar para corregir", use_container_width=True):
+        st.rerun()
+
 # --- VENTANA DE RESUMEN PARA SUPERVISORES ---
 @st.dialog("📊 Resumen de Cierre: Marzo")
 def mostrar_resumen_supervisor():
@@ -212,7 +220,7 @@ else:
                     if st.form_submit_button("🚀 GUARDAR ESTUDIANTES"):
                         # Nueva validación de asistencia
                         if v_as == 0 and h_as == 0:
-                            st.error("⚠️ Error: Debe incluir el promedio de asistencia para poder guardar.")
+                            alerta_asistencia()
                         else:
                             total_inscritos = v_in + h_in
                             total_asistencia = v_as + h_as
