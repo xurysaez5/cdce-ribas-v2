@@ -178,14 +178,14 @@ else:
             st.rerun()
 
 # 2. Logo y Período
-# Si el día actual es 25 o más, muestra el mes actual (Abril), si no, el anterior (Marzo)
-        hoy = datetime.now()
-        if hoy.day >= 25:
-            mes_defecto_index = hoy.month - 1
-        else:
-            mes_defecto_index = (hoy.month - 2) % 12
-            
-        mes_sel = st.selectbox("📅 Período:", meses, index=mes_defecto_index)
+    # 2. Logo y Período
+    c_mes, c_vacio = st.columns([2, 4])
+    with c_mes:
+        meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+        # El selector ahora es independiente y funciona para todos los roles
+        mes_anterior_index = (datetime.now().month - 2) % 12
+        mes_sel = st.selectbox("📅 Período:", meses, index=mes_anterior_index)
         st.write("")
     st.markdown("<h1 style='text-align: center; color: #1f3b64;'>Sistema Integrado de Estadísticas</h1>", unsafe_allow_html=True)
     modulo = None
