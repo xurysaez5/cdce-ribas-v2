@@ -210,8 +210,13 @@ else:
                         h_in = st.number_input("Hembras Inscritas:", min_value=0, step=1)
                         h_as = st.number_input("Asistencia Promedio H:", min_value=0.0)
                     if st.form_submit_button("🚀 GUARDAR ESTUDIANTES"):
-                        total_inscritos = v_in + h_in
-                        total_asistencia = v_as + h_as
+                        # Nueva validación de asistencia
+                        if v_as == 0 and h_as == 0:
+                            st.error("⚠️ Error: Debe incluir el promedio de asistencia para poder guardar.")
+                        else:
+                            try:
+                                total_inscritos = v_in + h_in
+                                total_asistencia = v_as + h_as
                         if total_inscritos > 0:
                            if total_asistencia > total_inscritos:
                                st.error(f"⚠️ **Error de Congruencia:** La asistencia total ({total_asistencia}) no puede ser mayor a la matrícula inscrita ({total_inscritos}). Por favor, corrija los valores.")
