@@ -217,7 +217,7 @@ else:
                             try:
                                 total_inscritos = v_in + h_in
                                 total_asistencia = v_as + h_as
-                        if total_inscritos > 0:
+                           if total_inscritos > 0:
                            if total_asistencia > total_inscritos:
                                st.error(f"⚠️ **Error de Congruencia:** La asistencia total ({total_asistencia}) no puede ser mayor a la matrícula inscrita ({total_inscritos}). Por favor, corrija los valores.")
                            else: 
