@@ -206,7 +206,7 @@ else:
             
             t1, t2, t3 = st.tabs(["Estudiantes", "Personal", "Laboral"])
             with t1: # Estudiantes
-                opciones_grados = {"Inicial": ["maternal(0-1)", "maternal(1-2)", "maternal(2-3)", "preescolar(3-4)", "preescolar(4-5)", "preescolar(5-6)"], "Primaria": ["1º grado", "2º grado", "3º grado", "4º grado", "5º grado", "6º grado"], "Media General": ["1º año", "2º año", "3º año", "4º año", "5º año"],"Media Técnica": ["1º año", "2º año", "3º año", "4º año", "5º año", "6º año"], "Especial": ["Único"]}
+                opciones_grados = {"Inicial": ["maternal(0-1)", "maternal(1-2)", "maternal(2-3)", "preescolar(3-4)", "preescolar(4-5)", "preescolar(5-6)"], "Primaria": ["1º grado", "2º grado", "3º grado", "4º grado", "5º grado", "6º grado"], "Media General": ["1º año", "2º año", "3º año", "4º año", "5º año"],"Media Técnica": ["1º año", "2º año", "3º año", "4º año", "5º año", "6º año"], "Especial": ["Único"],  "Jóvenes y Adultos": ["Periodo I", "Periodo II"]}
                 n_sel_c = st.selectbox("Nivel Educativo:", list(opciones_grados.keys()), key="n_c_est")
                 g_sel_c = st.selectbox("Grado/Sección:", opciones_grados[n_sel_c], key="g_c_est")
                 with st.form("f_est_v3", clear_on_submit=True):
