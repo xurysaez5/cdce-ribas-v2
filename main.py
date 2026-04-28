@@ -247,8 +247,8 @@ else:
                         v_c = st.number_input("Personal Masculino que Cobra por esta Institución", min_value=0)
                         h_c = st.number_input("Personal Femenino que Cobra por esta Institución", min_value=0)
                     with c3:
-                        va_p = st.number_input("Asis. V:", min_value=0.0)
-                        ha_p = st.number_input("Asis. H:", min_value=0.0)
+                        va_p = st.number_input("¿Cuánto Personal Masculino Asistió en el Mes? :", min_value=0.0)
+                        ha_p = st.number_input("¿Cuánto Personal Femenino Asistió en el Mes?", min_value=0.0)
                     if st.form_submit_button("🚀 GUARDAR PERSONAL"):
                         total_contratados = v_c + h_c
                         total_asistencia = va_p + ha_p
