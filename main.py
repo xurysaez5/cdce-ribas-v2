@@ -213,10 +213,10 @@ else:
                     c_v, c_h = st.columns(2)
                     with c_v:
                         v_in = st.number_input("Varones Inscritos:", min_value=0, step=1)
-                        v_as = st.number_input("¿Cúantos Varones Asistieron en el mes?", min_value=0.0)
+                        v_as = st.number_input("¿Cuántos Varones Asistieron en el Mes?", min_value=0.0)
                     with c_h:
                         h_in = st.number_input("Hembras Inscritas:", min_value=0, step=1)
-                        h_as = st.number_input("¿Cúantas Hembras Asistieron en el mes?", min_value=0.0)
+                        h_as = st.number_input("¿Cuántas Hembras Asistieron en el Mes?", min_value=0.0)
                     if st.form_submit_button("🚀 GUARDAR ESTUDIANTES"):
                         # Nueva validación de asistencia
                         if v_as == 0 and h_as == 0:
