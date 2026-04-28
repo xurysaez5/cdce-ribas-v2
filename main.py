@@ -244,8 +244,8 @@ else:
                     c1, c2, c3 = st.columns(3)
                     with c1: car_s = st.selectbox("Cargo:", ["Docente", "Administrativo", "Obrero", "Cocineras", "Vigilantes"])
                     with c2:
-                        v_c = st.number_input("V. Contratados:", min_value=0)
-                        h_c = st.number_input("H. Contratadas:", min_value=0)
+                        v_c = st.number_input("Personal Masculino que Cobra por esta Institución", min_value=0)
+                        h_c = st.number_input("Personal Femenino que Cobra por esta Institución", min_value=0)
                     with c3:
                         va_p = st.number_input("Asis. V:", min_value=0.0)
                         ha_p = st.number_input("Asis. H:", min_value=0.0)
