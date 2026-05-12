@@ -213,10 +213,10 @@ else:
                     c_v, c_h = st.columns(2)
                     with c_v:
                         v_in = st.number_input("Varones Inscritos:", min_value=0, step=1)
-                        v_as = st.number_input("¿Cuántos Varones Asistieron en el Mes?", min_value=0.0)
+                        v_as = st.number_input("¿Cuántos Varones Asistieron en el Mes?", min_value=0)
                     with c_h:
                         h_in = st.number_input("Hembras Inscritas:", min_value=0, step=1)
-                        h_as = st.number_input("¿Cuántas Hembras Asistieron en el Mes?", min_value=0.0)
+                        h_as = st.number_input("¿Cuántas Hembras Asistieron en el Mes?", min_value=0)
                     if st.form_submit_button("🚀 GUARDAR ESTUDIANTES"):
                         # Nueva validación de asistencia
                         if v_as == 0 and h_as == 0:
@@ -247,8 +247,8 @@ else:
                         v_c = st.number_input("Personal Masculino que Cobra por esta Institución", min_value=0)
                         h_c = st.number_input("Personal Femenino que Cobra por esta Institución", min_value=0)
                     with c3:
-                        va_p = st.number_input("¿Del Personal Masculino Cuántos Asistieron en el Mes?", min_value=0.0)
-                        ha_p = st.number_input("¿Del Personal Femenino Cuántas Asistieron en el Mes?", min_value=0.0)
+                        va_p = st.number_input("¿Del Personal Masculino Cuántos Asistieron en el Mes?", min_value=0)
+                        ha_p = st.number_input("¿Del Personal Femenino Cuántas Asistieron en el Mes?", min_value=0)
                     if st.form_submit_button("🚀 GUARDAR PERSONAL"):
                         total_contratados = v_c + h_c
                         total_asistencia = va_p + ha_p
