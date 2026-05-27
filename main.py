@@ -237,7 +237,7 @@ else:
                             else:
                                 st.warning("⚠️ La matrícula total debe ser mayor a cero para poder guardar.")
             with t2: # Personal
-                niveles_p = {"Inicial": ["maternal", "preescolar"], "Primaria": ["Primaria"], "Media": ["media general", "media técnica"], "Especial": ["educacion especial"], "Otros": ["no aplica"]}
+                niveles_p = {"Inicial": ["maternal", "preescolar"], "Primaria": ["primaria"], "Media": ["media general", "media técnica"], "Especial": ["educacion especial"], "Otros": ["no aplica"]}
                 np_s = st.selectbox("Nivel Educativo:", list(niveles_p.keys()))
                 sub_np_s = st.selectbox("Detalle:", niveles_p[np_s])
                 with st.form("f_per_v3", clear_on_submit=True):
