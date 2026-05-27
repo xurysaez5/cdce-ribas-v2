@@ -109,7 +109,7 @@ def mostrar_resumen_supervisor():
     except Exception as e:
         st.error("Error al obtener estadísticas de supervisión.")
 
-    if st.button("Entrar al Panel de Control", use_container_width=True):
+    if st.button("Entrar al Panel del Sistema", use_container_width=True):
         st.rerun()
 
 # --- FUNCIÓN DE AUTENTICACIÓN ---
