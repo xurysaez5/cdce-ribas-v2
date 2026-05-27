@@ -84,11 +84,11 @@ def alerta_asistencia():
         st.rerun()
 
 # --- VENTANA DE RESUMEN PARA SUPERVISORES ---
-@st.dialog("📊 Resumen de Cierre: Abril")
+@st.dialog("📊 Resumen de Cierre: Mayo")
 def mostrar_resumen_supervisor():
     try:
         # El supervisor quiere saber el estado de MARZO específicamente
-        mes_consulta = "Abril"
+        mes_consulta = "Mayo"
         res = supabase.table("estudiantes").select("escuela_id").eq("mes_carga", mes_consulta).execute()
         df_conteo = pd.DataFrame(res.data)
         
