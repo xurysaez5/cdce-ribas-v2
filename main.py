@@ -187,7 +187,6 @@ else:
         st.write("")
         mes_anterior_index = (datetime.now().month - 1) % 12
         mes_sel = st.selectbox("📅 Período:", meses, index=mes_anterior_index)
-        st.write("")
     modulo = None
     ids_para_query = []
     modo = st.pills("Acción:", ["📊 Consultar", "📥 Cargar Datos"], default="📊 Consultar") if rol_usuario in ["admin", "director"] else "📊 Consultar"
