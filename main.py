@@ -176,8 +176,8 @@ else:
         if st.button("🚪 Salir"):
             st.session_state.clear()
             st.rerun()
-
-# 2. Logo y Período
+    st.markdown("<h1 style='text-align: center; color: #1f3b64;'>Sistema Integrado de Estadísticas</h1>", unsafe_allow_html=True)
+    # 2. Logo y Período
     # 2. Logo y Período
     c_mes, c_vacio = st.columns([2, 4])
     with c_mes:
@@ -187,7 +187,6 @@ else:
         mes_anterior_index = (datetime.now().month - 1) % 12
         mes_sel = st.selectbox("📅 Período:", meses, index=mes_anterior_index)
         st.write("")
-    st.markdown("<h1 style='text-align: center; color: #1f3b64;'>Sistema Integrado de Estadísticas</h1>", unsafe_allow_html=True)
     modulo = None
     ids_para_query = []
     modo = st.pills("Acción:", ["📊 Consultar", "📥 Cargar Datos"], default="📊 Consultar") if rol_usuario in ["admin", "director"] else "📊 Consultar"
