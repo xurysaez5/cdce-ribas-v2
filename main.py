@@ -185,7 +185,7 @@ else:
                  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
         # El selector ahora es independiente y funciona para todos los roles
         st.write("")
-        mes_anterior_index = (datetime.now().month - 1) % 12
+        mes_anterior_index = (datetime.now().month - 2) % 12
         mes_sel = st.selectbox("📅 Período:", meses, index=mes_anterior_index)
     modulo = None
     ids_para_query = []
