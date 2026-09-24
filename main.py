@@ -228,7 +228,7 @@ else:
                                     st.error(f"⚠️ **Error de Congruencia:** La asistencia total ({total_asistencia}) no puede ser mayor a la matrícula inscrita ({total_inscritos}). Por favor, corrija los valores.")
                                 else: 
                                     p_real = ((v_as + h_as) / total_inscritos) * 100
-                                    datos = {"escuela_id": int(id_inst), "mes_carga": mes_sel, "ano_escolar": "2025-2026", "nivel_educativo": n_sel_c, "detalle_grupo": g_sel_c, "varones": v_in, "hembras": h_in, "total_matricula": total_inscritos, "asistencia_varones": v_as, "asistencia_hembras": h_as, "asistencia_promedio_real": round(p_real, 2)}
+                                    datos = {"escuela_id": int(id_inst), "mes_carga": mes_sel, "ano_escolar": "2026-2027", "nivel_educativo": n_sel_c, "detalle_grupo": g_sel_c, "varones": v_in, "hembras": h_in, "total_matricula": total_inscritos, "asistencia_varones": v_as, "asistencia_hembras": h_as, "asistencia_promedio_real": round(p_real, 2)}
                                     try:
                                         supabase.table("estudiantes").upsert(datos, on_conflict="escuela_id, nivel_educativo, detalle_grupo, mes_carga, ano_escolar").execute()
                                         st.success("✅ ¡Datos guardados!")
@@ -268,7 +268,7 @@ else:
                                     "asistencia_v": int(va_p), 
                                     "asistencia_h": int(ha_p), 
                                     "mes_carga": mes_sel, 
-                                    "ano_escolar": "2025-2026"
+                                    "ano_escolar": "2026-2027"
                                 }
                                 try:
                                     supabase.table("personal").upsert(datos_p, on_conflict="escuela_id, mes_carga, ano_escolar, detalle_grupo, tipo_personal").execute()
@@ -290,7 +290,7 @@ else:
                             lv = st.number_input("Varones:", min_value=0)
                             lh = st.number_input("Hembras:", min_value=0)
                         if st.form_submit_button("🚀 GUARDAR CONDICIÓN"):
-                            datos_l = {"escuela_id": int(id_inst), "mes": mes_sel, "ano_escolar": "2025-2026", "cargo_id": d_car[c_s], "condicion_id": d_con[co_s], "varones": int(lv), "hembras": int(lh)}
+                            datos_l = {"escuela_id": int(id_inst), "mes": mes_sel, "ano_escolar": "2026-2027", "cargo_id": d_car[c_s], "condicion_id": d_con[co_s], "varones": int(lv), "hembras": int(lh)}
                             try:
                                 supabase.table("condicion_laboral").upsert(datos_l, on_conflict="escuela_id, mes, ano_escolar, cargo_id, condicion_id").execute()
                                 st.success("✅ ¡Éxito!")
