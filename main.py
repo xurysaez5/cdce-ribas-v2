@@ -179,6 +179,14 @@ else:
     st.markdown("<h1 style='text-align: center; color: #1f3b64;'>Sistema Integrado de Estadísticas</h1>", unsafe_allow_html=True)
     # 2. Logo y Período
     # 2. Logo y Período
+        # --- SELECTORES DE AÑO ESCOLAR Y PERÍODO (MES) EN LA PARTE SUPERIOR ---
+    c_ano, c_mes, c_vacio = st.columns([2, 2, 2])
+    
+    with c_ano:
+        anos_escolares = ["2025-2026", "2026-2027"]
+        st.write("")
+        # Por defecto seleccionado "2026-2027" (índice 1)
+        ano_sel = st.selectbox("🎓 Año Escolar:", anos_escolares, index=1)
     c_mes, c_vacio = st.columns([2, 4])
     with c_mes:
         meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
