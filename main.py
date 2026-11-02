@@ -111,22 +111,7 @@ def mostrar_resumen_supervisor():
 
     if st.button("Entrar al Panel del Sistema", use_container_width=True):
         st.rerun()
-# --- FUNCIÓN PARA OBTENER LOS AÑOS ESCOLARES DE LA BD ---
-@st.cache_data(ttl=300)
-def obtener_anos_escolares():
-    try:
-        res = supabase.table("estudiantes").select("ano_escolar").execute()
-        if res.data:
-            df_anos = pd.DataFrame(res.data)
-            if 'ano_escolar' in df_anos.columns and not df_anos.empty:
-                # Extrae los valores únicos, elimina nulos y los ordena
-                anos = sorted(df_anos['ano_escolar'].dropna().unique().tolist())
-                if anos:
-                    return anos
-    except Exception:
-        pass
-    # Fallback por seguridad si la consulta falla
-    return ["2025-2026", "2026-2027"]
+
 # --- FUNCIÓN DE AUTENTICACIÓN ---
 def login():
     st.markdown("<h1 style='text-align: center; color: #1f3b64;'>🔐 Sistema Integrado de Estadísticas</h1>", unsafe_allow_html=True)
@@ -194,28 +179,14 @@ else:
     st.markdown("<h1 style='text-align: center; color: #1f3b64;'>Sistema Integrado de Estadísticas</h1>", unsafe_allow_html=True)
     # 2. Logo y Período
     # 2. Logo y Período
-        # --- SELECTORES DE AÑO ESCOLAR Y PERÍODO (MES) EN LA PARTE SUPERIOR ---
-# --- SELECTORES DE AÑO ESCOLAR Y PERÍODO (MES) DINÁMICOS ---
-    c_ano, c_mes, c_vacio = st.columns([2, 2, 2])
-    
-    with c_ano:
-        anos_disponibles = obtener_anos_escolares()
-        st.write("")
-        
-        # Buscamos el índice de "2026-2027" por defecto, o usamos el último disponible
-        default_idx = (
-            anos_disponibles.index("2026-2027") 
-            if "2026-2027" in anos_disponibles 
-            else len(anos_disponibles) - 1
-        )
-        ano_sel = st.selectbox("🎓 Año Escolar:", anos_disponibles, index=default_idx)
-        
+    c_mes, c_vacio = st.columns([2, 4])
     with c_mes:
         meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
                  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+        # El selector ahora es independiente y funciona para todos los roles
         st.write("")
         mes_anterior_index = (datetime.now().month - 1) % 12
-        mes_sel = st.selectbox("📅 Período (Mes):", meses, index=mes_anterior_index)
+        mes_sel = st.selectbox("📅 Período:", meses, index=mes_anterior_index)
     modulo = None
     ids_para_query = []
     modo = st.pills("Acción:", ["📊 Consultar", "📥 Cargar Datos"], default="📊 Consultar") if rol_usuario in ["admin", "director"] else "📊 Consultar"
