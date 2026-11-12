@@ -164,7 +164,7 @@ else:
     rol_usuario = str(u_data.get("rol", "")).lower()
 
     # --- LÓGICA DEL POPUP (SOLO SUPERVISOR) ---
-    if st.session_state.get("mostrar_popup") and rol_usuario == "supervisor":
+    if st.session_state.get("mostrar_popup") and rol_usuario == "admin", "supervisor":
         st.session_state["mostrar_popup"] = False
         mostrar_resumen_supervisor()
 
